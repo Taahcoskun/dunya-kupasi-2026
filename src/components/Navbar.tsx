@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { Trophy, Calendar, LayoutDashboard, LogOut, LogIn, UserPlus, Users, Star } from "lucide-react";
 
@@ -12,6 +13,7 @@ const WorldCupLogo = ({ className }: { className?: string }) => (
 
 export default function Navbar() {
   const { data: session } = useSession();
+  const pathname = usePathname();
 
   return (
     <nav className="glass sticky top-0 z-50 py-3 px-6 shadow-2xl mb-4">
@@ -25,22 +27,22 @@ export default function Navbar() {
           </span>
         </Link>
         
-        <div className="flex gap-1 md:gap-2 items-center">
-          <Link href="/" className="flex items-center gap-2 px-2 md:px-4 py-2 rounded-xl hover:bg-white/5 transition-all text-gray-300 hover:text-white font-medium">
-            <Calendar className="w-5 h-5 md:w-4 md:h-4" />
+        <div className="flex gap-1 md:gap-2 items-center bg-black/20 p-1 md:p-1.5 rounded-2xl border border-white/5">
+          <Link href="/" className={`flex items-center gap-2 px-3 md:px-4 py-2 rounded-xl transition-all duration-300 ${pathname === "/" ? "bg-blue-600/20 text-blue-400 font-bold border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.15)]" : "text-gray-400 hover:text-white hover:bg-white/5 font-medium border border-transparent"}`}>
+            <Calendar className={`w-5 h-5 md:w-4 md:h-4 ${pathname === "/" ? "text-blue-400" : ""}`} />
             <span className="hidden md:inline">Fikstür</span>
           </Link>
-          <Link href="/standings" className="flex items-center gap-2 px-2 md:px-4 py-2 rounded-xl hover:bg-white/5 transition-all text-gray-300 hover:text-white font-medium">
-            <Users className="w-5 h-5 md:w-4 md:h-4" />
+          <Link href="/standings" className={`flex items-center gap-2 px-3 md:px-4 py-2 rounded-xl transition-all duration-300 ${pathname === "/standings" ? "bg-blue-600/20 text-blue-400 font-bold border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.15)]" : "text-gray-400 hover:text-white hover:bg-white/5 font-medium border border-transparent"}`}>
+            <Users className={`w-5 h-5 md:w-4 md:h-4 ${pathname === "/standings" ? "text-blue-400" : ""}`} />
             <span className="hidden md:inline">Puan Durumu</span>
           </Link>
-          <Link href="/leaderboard" className="flex items-center gap-2 px-2 md:px-4 py-2 rounded-xl hover:bg-white/5 transition-all text-gray-300 hover:text-white font-medium">
-            <LayoutDashboard className="w-5 h-5 md:w-4 md:h-4" />
-            <span className="hidden md:inline">Liderlik Tablosu</span>
+          <Link href="/leaderboard" className={`flex items-center gap-2 px-3 md:px-4 py-2 rounded-xl transition-all duration-300 ${pathname === "/leaderboard" ? "bg-blue-600/20 text-blue-400 font-bold border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.15)]" : "text-gray-400 hover:text-white hover:bg-white/5 font-medium border border-transparent"}`}>
+            <LayoutDashboard className={`w-5 h-5 md:w-4 md:h-4 ${pathname === "/leaderboard" ? "text-blue-400" : ""}`} />
+            <span className="hidden md:inline">Liderlik</span>
           </Link>
-          <Link href="/extra" className="flex items-center gap-2 px-2 md:px-4 py-2 rounded-xl hover:bg-white/5 transition-all text-gray-300 hover:text-white font-medium">
-            <Star className="w-5 h-5 md:w-4 md:h-4 text-purple-400" />
-            <span className="hidden lg:inline">Ekstra Tahminler</span>
+          <Link href="/extra" className={`flex items-center gap-2 px-3 md:px-4 py-2 rounded-xl transition-all duration-300 ${pathname === "/extra" ? "bg-purple-500/20 text-purple-400 font-bold border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.15)]" : "text-gray-400 hover:text-white hover:bg-white/5 font-medium border border-transparent"}`}>
+            <Star className={`w-5 h-5 md:w-4 md:h-4 ${pathname === "/extra" ? "text-purple-400 fill-purple-400" : "text-purple-400/70"}`} />
+            <span className="hidden lg:inline">Ekstra</span>
           </Link>
           
           <div className="hidden sm:block h-6 w-px bg-white/10 mx-1 md:mx-2" />
