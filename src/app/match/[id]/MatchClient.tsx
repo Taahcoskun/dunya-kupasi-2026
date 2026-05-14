@@ -193,19 +193,19 @@ export default function MatchClient({
             {kickoff.toLocaleString('tr-TR', { weekday: 'long', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false })}
           </div>
 
-          <div className="flex justify-between items-center mb-10 gap-4">
-            <div className="flex flex-col items-center w-1/3 gap-6">
+          <div className="flex justify-between items-center mb-10 gap-2 md:gap-4">
+            <div className="flex flex-col items-center w-1/3 gap-3 md:gap-6">
               <div className="relative">
                 <div className="absolute inset-0 bg-blue-500/20 blur-[40px] rounded-full"></div>
-                <div className="relative w-32 h-32 md:w-40 md:h-40 bg-gray-800 rounded-full p-1.5 border-2 border-white/10 overflow-hidden shadow-2xl">
+                <div className="relative w-20 h-20 md:w-40 md:h-40 bg-gray-800 rounded-full p-1.5 border-2 border-white/10 overflow-hidden shadow-2xl">
                   <img src={getFlagUrl(match.teamHome)} alt={match.teamHome} className="w-full h-full object-cover rounded-full" />
                 </div>
               </div>
-              <span className="text-xl md:text-2xl font-black text-white text-center">{match.teamHome}</span>
+              <span className="text-sm md:text-2xl font-black text-white text-center line-clamp-1">{match.teamHome}</span>
             </div>
             
             <div className="w-1/3 flex flex-col items-center justify-center">
-              <div className="text-5xl md:text-7xl font-black tabular-nums tracking-tighter text-white drop-shadow-2xl">
+              <div className="text-4xl md:text-7xl font-black tabular-nums tracking-tighter text-white drop-shadow-2xl">
                 {(match.status === "SCHEDULED" && match.homeScore === null) ? (
                   <span className="text-gray-800">VS</span>
                 ) : (
@@ -219,14 +219,14 @@ export default function MatchClient({
               {match.status === "LIVE" && <div className="text-red-500 text-xs font-black mt-4 uppercase tracking-widest animate-pulse">Şu An Oynanıyor</div>}
             </div>
 
-            <div className="flex flex-col items-center w-1/3 gap-6">
+            <div className="flex flex-col items-center w-1/3 gap-3 md:gap-6">
               <div className="relative">
                 <div className="absolute inset-0 bg-blue-500/20 blur-[40px] rounded-full"></div>
-                <div className="relative w-32 h-32 md:w-40 md:h-40 bg-gray-800 rounded-full p-1.5 border-2 border-white/10 overflow-hidden shadow-2xl">
+                <div className="relative w-20 h-20 md:w-40 md:h-40 bg-gray-800 rounded-full p-1.5 border-2 border-white/10 overflow-hidden shadow-2xl">
                   <img src={getFlagUrl(match.teamAway)} alt={match.teamAway} className="w-full h-full object-cover rounded-full" />
                 </div>
               </div>
-              <span className="text-xl md:text-2xl font-black text-white text-center">{match.teamAway}</span>
+              <span className="text-sm md:text-2xl font-black text-white text-center line-clamp-1">{match.teamAway}</span>
             </div>
           </div>
         </div>
@@ -249,7 +249,7 @@ export default function MatchClient({
             )}
             
             <div className="flex flex-col gap-8">
-              <div className="flex justify-center gap-8 items-center">
+              <div className="flex justify-center gap-4 md:gap-8 items-center">
                 <div className="flex flex-col items-center gap-2">
                   <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">{match.teamHome}</span>
                   <input 
@@ -340,28 +340,28 @@ export default function MatchClient({
               )}
               
               <form onSubmit={handlePredict} className="flex flex-col items-center">
-                <div className="flex gap-10 items-center justify-center mb-10">
+                <div className="flex gap-4 md:gap-10 items-center justify-center mb-10">
                   <div className="flex flex-col items-center gap-3">
-                    <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">{match.teamHome}</span>
+                    <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest text-center w-20 md:w-auto truncate">{match.teamHome}</span>
                     <input 
                       type="number" 
                       min="0"
                       value={predHome}
                       onChange={(e) => setPredHome(parseInt(e.target.value) || 0)}
                       disabled={isLocked}
-                      className="w-24 h-24 text-center text-5xl font-black bg-white/5 border-2 border-white/10 rounded-3xl focus:border-blue-500 focus:bg-white/10 outline-none disabled:opacity-30 transition-all text-white tabular-nums"
+                      className="w-16 h-16 md:w-24 md:h-24 text-center text-3xl md:text-5xl font-black bg-white/5 border-2 border-white/10 rounded-2xl md:rounded-3xl focus:border-blue-500 focus:bg-white/10 outline-none disabled:opacity-30 transition-all text-white tabular-nums"
                     />
                   </div>
-                  <div className="h-0.5 w-6 bg-white/10 mt-8"></div>
+                  <div className="h-0.5 w-4 md:w-6 bg-white/10 mt-6 md:mt-8"></div>
                   <div className="flex flex-col items-center gap-3">
-                    <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">{match.teamAway}</span>
+                    <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest text-center w-20 md:w-auto truncate">{match.teamAway}</span>
                     <input 
                       type="number" 
                       min="0"
                       value={predAway}
                       onChange={(e) => setPredAway(parseInt(e.target.value) || 0)}
                       disabled={isLocked}
-                      className="w-24 h-24 text-center text-5xl font-black bg-white/5 border-2 border-white/10 rounded-3xl focus:border-blue-500 focus:bg-white/10 outline-none disabled:opacity-30 transition-all text-white tabular-nums"
+                      className="w-16 h-16 md:w-24 md:h-24 text-center text-3xl md:text-5xl font-black bg-white/5 border-2 border-white/10 rounded-2xl md:rounded-3xl focus:border-blue-500 focus:bg-white/10 outline-none disabled:opacity-30 transition-all text-white tabular-nums"
                     />
                   </div>
                 </div>
