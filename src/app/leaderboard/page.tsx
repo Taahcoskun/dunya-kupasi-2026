@@ -54,7 +54,7 @@ export default function LeaderboardPage() {
           <div className="overflow-x-auto w-full scrollbar-hide">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-white/5 border-b border-white/10">
+                <tr className="bg-white/5 border-b border-white/10 divide-x divide-white/10">
                   <th className="p-4 md:p-6 text-gray-400 font-bold uppercase text-xs tracking-widest w-16 md:w-24 text-center whitespace-nowrap">Sıra</th>
                   <th className="p-4 md:p-6 text-gray-400 font-bold uppercase text-xs tracking-widest whitespace-nowrap">Kullanıcı</th>
                   <th className="p-4 md:p-6 text-gray-400 font-bold uppercase text-xs tracking-widest text-center whitespace-nowrap">Tahmin</th>
@@ -69,7 +69,7 @@ export default function LeaderboardPage() {
                 {users.map((user, idx) => (
                   <tr 
                     key={user.id} 
-                    className={`border-b border-white/5 hover:bg-white/5 transition-all duration-300 group ${
+                    className={`border-b border-white/5 divide-x divide-white/5 hover:bg-white/5 transition-all duration-300 group ${
                       idx === 0 ? "bg-yellow-500/5" : idx === 1 ? "bg-gray-400/5" : idx === 2 ? "bg-orange-500/5" : ""
                     }`}
                   >
