@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String       @id @default(cuid())
+  username     String       @unique
+  passwordHash String
+  totalPoints  Int          @default(0)
+  role         String       @default("USER")
+  createdAt    DateTime     @default(now())
+  predictions  Prediction[]
+  extraPrediction ExtraPrediction?
+}
+
+model Match {
+  id          String       @id @default(cuid())
+  teamHome    String
+  teamAway    String
+  kickoffTime DateTime
+  homeScore   Int?
+  awayScore   Int?
+  status      String       @default("SCHEDULED") // SCHEDULED, LIVE, FINISHED
+  updatedAt   DateTime     @updatedAt
+  predictions Prediction[]
+}
+
+model Prediction {
+  id                 String   @id @default(cuid())
+  userId             String
+  matchId            String
+  predictedHomeScore Int
+  predictedAwayScore Int
+  pointsAwarded      Int?
+  locked             Boolean  @default(false)
+  createdAt          DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id])
+  match Match @relation(fields: [matchId], references: [id])
+
+  @@unique([userId, matchId])
+}
+model Team {
+  id        String @id @default(cuid())
+  name      String @unique
+  group     String
+  played    Int    @default(0)
+  goalDiff  Int    @default(0)
+  points    Int    @default(0)
+}
+
+model ExtraPrediction {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  winnerTeam  String?
+  bestPlayer  String?
+  topScorer   String?
+  topAssister String?
+  updatedAt   DateTime @updatedAt
+  user        User     @relation(fields: [userId], references: [id])
+}

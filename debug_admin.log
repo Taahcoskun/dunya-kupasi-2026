@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-05-12T20:20:40.166Z",
+  "session": {
+    "user": {
+      "name": "ADMIN",
+      "id": "cmp2whu71000093gt0m1fv3z6",
+      "role": "ADMIN"
+    }
+  },
+  "body": {
+    "homeScore": 2,
+    "awayScore": 3,
+    "status": "SCHEDULED"
+  },
+  "success": true,
+  "rowsAffected": 0
+}
+---
