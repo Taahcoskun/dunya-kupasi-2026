@@ -208,21 +208,23 @@ export default function MatchClient({
         {/* Match Header Card */}
         <div className="glass-dark rounded-[2.5rem] md:rounded-[3rem] p-1 shadow-2xl border border-white/5 relative overflow-hidden mb-8 md:mb-12 fade-in-up">
           <div className="bg-gray-900/50 rounded-[2.3rem] md:rounded-[2.8rem] p-6 md:p-10">
-            {match.status === "LIVE" && (
-              <div className="absolute top-4 md:top-8 right-4 md:right-8 bg-red-500/10 text-red-500 font-black px-3 md:px-4 py-1 md:py-1.5 rounded-full border border-red-500/20 flex items-center gap-2 animate-pulse text-[9px] md:text-xs tracking-widest">
-                <div className="w-1.5 md:w-2 h-1.5 md:h-2 rounded-full bg-red-500"></div>
-                CANLI MAÇ
-              </div>
-            )}
-            {match.status === "FINISHED" && (
-              <div className="absolute top-4 md:top-8 right-4 md:right-8 bg-gray-500/10 text-gray-400 font-black px-3 md:px-4 py-1 md:py-1.5 rounded-full border border-white/10 text-[9px] md:text-xs tracking-widest">
-                MAÇ BİTTİ
-              </div>
-            )}
+            <div className="flex flex-col items-center mb-8 md:mb-12 gap-4">
+              {match.status === "LIVE" && (
+                <div className="bg-red-500/10 text-red-500 font-black px-3 md:px-4 py-1 md:py-1.5 rounded-full border border-red-500/20 flex items-center gap-2 animate-pulse text-[9px] md:text-xs tracking-widest uppercase">
+                  <div className="w-1.5 md:w-2 h-1.5 md:h-2 rounded-full bg-red-500"></div>
+                  CANLI MAÇ
+                </div>
+              )}
+              {match.status === "FINISHED" && (
+                <div className="bg-gray-500/10 text-gray-400 font-black px-3 md:px-4 py-1 md:py-1.5 rounded-full border border-white/10 text-[9px] md:text-xs tracking-widest uppercase">
+                  MAÇ BİTTİ
+                </div>
+              )}
 
-            <div className="text-center text-[10px] md:text-xs font-bold text-gray-500 uppercase tracking-[0.2em] mb-8 md:mb-12 flex items-center justify-center gap-2 md:gap-3">
-              <Timer className="w-3.5 md:w-4 h-3.5 md:h-4" />
-              {kickoff.toLocaleString('tr-TR', { weekday: 'long', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false })}
+              <div className="text-center text-[10px] md:text-xs font-bold text-gray-500 uppercase tracking-[0.2em] flex items-center justify-center gap-2 md:gap-3">
+                <Timer className="w-3.5 md:w-4 h-3.5 md:h-4" />
+                {kickoff.toLocaleString('tr-TR', { weekday: 'long', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false })}
+              </div>
             </div>
 
             <div className="flex flex-row justify-between items-center mb-4 md:mb-10 gap-2 md:gap-4">
