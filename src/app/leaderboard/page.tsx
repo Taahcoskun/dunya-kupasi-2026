@@ -47,7 +47,7 @@ export default function LeaderboardPage() {
       ) : (
         <div className="glass-dark rounded-[2.5rem] shadow-2xl border border-white/5 overflow-hidden w-full">
           <div className="overflow-x-auto w-full scrollbar-hide">
-            <table className="w-full text-left border-collapse min-w-[500px]">
+            <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-white/5 border-b border-white/10">
                   <th className="p-4 md:p-6 text-gray-400 font-bold uppercase text-xs tracking-widest w-16 md:w-24 text-center">Sıra</th>
