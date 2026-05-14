@@ -108,3 +108,54 @@ export async function updateMatchScoreAction(matchId: string, homeScore: number,
     return { success: false, error: error.message };
   }
 }
+
+export async function resetMatchAction(matchId: string, teamHome: string, teamAway: string) {
+  const session = await getServerSession(authOptions);
+  const isAdmin = session?.user?.name?.toUpperCase() === "ADMIN" || (session?.user as any)?.role === "ADMIN";
+
+  if (!isAdmin) {
+    throw new Error("Unauthorized");
+  }
+
+  try {
+    const dbMatch = await prisma.match.findFirst({
+      where: {
+        OR: [
+          { id: matchId },
+          { teamHome, teamAway }
+        ]
+      }
+    });
+
+    if (!dbMatch) return { success: false, error: "Match not found" };
+
+    const predictions = await prisma.prediction.findMany({
+      where: { matchId: dbMatch.id, pointsAwarded: { not: null } }
+    });
+
+    for (const pred of predictions) {
+      if (pred.pointsAwarded && pred.pointsAwarded > 0) {
+        await prisma.user.update({
+          where: { id: pred.userId },
+          data: { totalPoints: { decrement: pred.pointsAwarded } }
+        });
+      }
+      await prisma.prediction.update({
+        where: { id: pred.id },
+        data: { pointsAwarded: null }
+      });
+    }
+
+    await prisma.match.update({
+      where: { id: dbMatch.id },
+      data: { homeScore: null, awayScore: null, status: "SCHEDULED" }
+    });
+
+    revalidatePath("/");
+    revalidatePath(`/match/${matchId}`);
+    return { success: true };
+  } catch (error: any) {
+    console.error("RESET MATCH ACTION ERROR:", error);
+    return { success: false, error: error.message };
+  }
+}

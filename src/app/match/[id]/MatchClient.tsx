@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getFlagUrl } from "@/lib/teams";
-import { updateMatchScoreAction } from "@/app/actions/matchActions";
+import { updateMatchScoreAction, resetMatchAction } from "@/app/actions/matchActions";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, Lock, Save, Trophy, AlertCircle, Timer, Zap } from "lucide-react";
 
@@ -167,6 +167,29 @@ export default function MatchClient({
     }
   };
 
+  const handleAdminReset = async () => {
+    if (!confirm("Maçı sıfırlamak istediğinize emin misiniz? Puanlar geri alınacak.")) return;
+    
+    setAdminError("");
+    setIsSaving(true);
+    try {
+      const res = await resetMatchAction(match.id, match.teamHome, match.teamAway);
+      if (res.success) {
+        await Promise.all([
+          fetchMatch(),
+          fetchAllPredictions()
+        ]);
+        router.refresh();
+      } else {
+        setAdminError(res.error || "Sıfırlama başarısız.");
+      }
+    } catch (err) {
+      setAdminError("Bağlantı hatası.");
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto py-8 px-4">
       <Link href="/" className="flex items-center gap-2 text-gray-400 hover:text-white mb-10 transition-colors font-medium group">
@@ -299,6 +322,16 @@ export default function MatchClient({
                   }`}
                 >
                   {isSaving ? "KAYDEDİLİYOR..." : "SKORLARI KAYDET"}
+                </button>
+
+                <button
+                  onClick={handleAdminReset}
+                  disabled={isSaving}
+                  className={`w-full py-3 rounded-2xl font-black transition-all active:scale-95 border border-red-500/30 ${
+                    isSaving ? "text-gray-600 border-gray-800 cursor-not-allowed" : "text-red-500 hover:bg-red-500/10"
+                  }`}
+                >
+                  {isSaving ? "LÜTFEN BEKLEYİN..." : "MAÇI SIFIRLA (PUANLARI SİL)"}
                 </button>
               </div>
             </div>
