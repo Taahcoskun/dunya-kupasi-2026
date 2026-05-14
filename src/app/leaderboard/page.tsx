@@ -60,7 +60,8 @@ export default function LeaderboardPage() {
                   <th className="p-4 md:p-6 text-gray-400 font-bold uppercase text-xs tracking-widest text-center whitespace-nowrap hidden sm:table-cell">1. Hafta</th>
                   <th className="p-4 md:p-6 text-gray-400 font-bold uppercase text-xs tracking-widest text-center whitespace-nowrap hidden sm:table-cell">2. Hafta</th>
                   <th className="p-4 md:p-6 text-gray-400 font-bold uppercase text-xs tracking-widest text-center whitespace-nowrap hidden sm:table-cell">3. Hafta</th>
-                  <th className="p-4 md:p-6 text-gray-400 font-bold uppercase text-xs tracking-widest text-center whitespace-nowrap">Tam İsabet</th>
+                  <th className="p-4 md:p-6 text-gray-400 font-bold uppercase text-xs tracking-widest text-center whitespace-nowrap">Tahmin</th>
+                  <th className="p-4 md:p-6 text-gray-400 font-bold uppercase text-xs tracking-widest text-center whitespace-nowrap">Birebir Skor</th>
                   <th className="p-4 md:p-6 text-gray-400 font-bold uppercase text-xs tracking-widest text-right w-24 md:w-32 whitespace-nowrap">Toplam</th>
                 </tr>
               </thead>
@@ -118,13 +119,14 @@ export default function LeaderboardPage() {
                       </span>
                     </td>
                     <td className="p-4 md:p-6 text-center">
-                      <div className="inline-flex items-center justify-center bg-green-500/10 px-2 py-1 rounded-md border border-green-500/20">
+                      <span className="font-semibold text-gray-300 tabular-nums">
+                        {user.totalPlayed}
+                      </span>
+                    </td>
+                    <td className="p-4 md:p-6 text-center">
+                      <div className="inline-flex items-center justify-center bg-green-500/10 px-3 py-1 rounded-md border border-green-500/20">
                         <span className="font-bold text-green-400 tabular-nums">
                           {user.exactHits}
-                        </span>
-                        <span className="text-gray-500 text-xs mx-1">/</span>
-                        <span className="text-gray-400 tabular-nums text-sm">
-                          {user.totalPlayed}
                         </span>
                       </div>
                     </td>
@@ -137,7 +139,7 @@ export default function LeaderboardPage() {
                 ))}
                 {users.length === 0 && (
                   <tr>
-                    <td colSpan={7} className="p-12 md:p-24 text-center text-gray-500">
+                    <td colSpan={8} className="p-12 md:p-24 text-center text-gray-500">
                       <User className="w-8 h-8 md:w-12 md:h-12 mx-auto mb-4 opacity-20" />
                       <p className="text-sm md:text-lg font-medium">Henüz tahminci bulunmuyor.</p>
                     </td>
