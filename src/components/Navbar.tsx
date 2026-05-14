@@ -4,6 +4,12 @@ import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { Trophy, Calendar, LayoutDashboard, LogOut, LogIn, UserPlus, Users, Star } from "lucide-react";
 
+const WorldCupLogo = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2C9.5 2 7.5 4 7.5 6.5c0 1.2.5 2.3 1.3 3.1-.4 1.1-.8 2.4-.8 3.9 0 3 2 4.5 2 4.5V20H8v2h8v-2h-2v-2s2-1.5 2-4.5c0-1.5-.4-2.8-.8-3.9.8-.8 1.3-1.9 1.3-3.1C16.5 4 14.5 2 12 2zm0 2c1.4 0 2.5 1.1 2.5 2.5S13.4 7 12 7 9.5 5.9 9.5 4.5 10.6 4 12 4z" />
+  </svg>
+);
+
 export default function Navbar() {
   const { data: session } = useSession();
 
@@ -12,7 +18,7 @@ export default function Navbar() {
       <div className="container mx-auto flex justify-between items-center">
         <Link href="/" className="flex items-center gap-2 group">
           <div className="bg-blue-600 p-1.5 rounded-lg group-hover:rotate-12 transition-transform shadow-lg shadow-blue-500/20">
-            <Trophy className="w-5 h-5 text-white" />
+            <WorldCupLogo className="w-6 h-6 text-white drop-shadow-md" />
           </div>
           <span className="hidden sm:inline text-xl font-black tracking-tight text-white group-hover:text-blue-400 transition-colors">
             Dünya Kupası <span className="text-blue-500">2026</span>
