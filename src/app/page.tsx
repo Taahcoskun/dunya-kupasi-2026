@@ -73,7 +73,7 @@ export default function Home() {
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="flex flex-col items-center mb-12">
-        <h1 className="text-5xl font-black text-center text-white mb-4 tracking-tight">
+        <h1 className="text-3xl md:text-5xl font-black text-center text-white mb-4 tracking-tight leading-tight">
           Geyiğin Nirvanası Grubu <span className="text-gradient">Dünya Kupası Özel</span>
         </h1>
         <p className="text-gray-400 text-center max-w-lg">
@@ -82,8 +82,8 @@ export default function Home() {
       </div>
 
       {/* Weekly Tabs */}
-      <div className="flex justify-center mb-8">
-        <div className="flex gap-4 p-1 bg-white/5 rounded-2xl border border-white/10">
+      <div className="flex justify-center mb-8 w-full">
+        <div className="flex gap-2 md:gap-4 p-1 bg-white/5 rounded-2xl border border-white/10 overflow-x-auto w-full md:w-auto scrollbar-hide">
           {[
             { id: "TODAY", label: "BUGÜN" },
             { id: "WEEK1", label: "1. HAFTA" },
@@ -94,7 +94,7 @@ export default function Home() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`px-8 py-3 rounded-xl text-sm font-black transition-all ${
+              className={`px-4 md:px-8 py-2 md:py-3 rounded-xl text-xs md:text-sm font-black transition-all whitespace-nowrap ${
                 activeTab === tab.id 
                   ? "bg-white/10 text-white shadow-xl" 
                   : "text-gray-500 hover:text-gray-300"
@@ -106,13 +106,13 @@ export default function Home() {
         </div>
       </div>
       
-      <div className="flex justify-center mb-12">
-        <div className="bg-white/5 p-1.5 rounded-2xl flex gap-1 border border-white/10 glass shadow-xl">
+      <div className="flex justify-center mb-12 w-full">
+        <div className="bg-white/5 p-1.5 rounded-2xl flex gap-1 border border-white/10 glass shadow-xl overflow-x-auto w-full md:w-auto scrollbar-hide">
           {["ALL", "SCHEDULED", "LIVE", "FINISHED"].map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f as any)}
-              className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 ${
+              className={`px-4 md:px-6 py-2 md:py-2.5 rounded-xl text-xs md:text-sm font-bold transition-all duration-300 whitespace-nowrap ${
                 filter === f 
                   ? "bg-blue-600 text-white shadow-lg shadow-blue-500/30 scale-105" 
                   : "text-gray-400 hover:text-white hover:bg-white/5"
@@ -171,11 +171,11 @@ function MatchCard({ match }: { match: Match }) {
             )}
           </div>
           
-          <div className="flex justify-between items-center px-2 mb-8">
-            <div className="flex flex-col items-center w-28 gap-4">
+          <div className="flex justify-between items-center px-1 md:px-2 mb-8">
+            <div className="flex flex-col items-center w-20 md:w-28 gap-2 md:gap-4">
               <div className="relative">
                 <div className="absolute inset-0 bg-blue-500/20 blur-xl rounded-full group-hover:bg-blue-500/40 transition-all"></div>
-                <div className="relative w-20 h-20 bg-gray-800 rounded-full p-1 border-2 border-white/10 group-hover:border-blue-500/50 transition-all overflow-hidden shadow-2xl">
+                <div className="relative w-16 h-16 md:w-20 md:h-20 bg-gray-800 rounded-full p-1 border-2 border-white/10 group-hover:border-blue-500/50 transition-all overflow-hidden shadow-2xl">
                   <img 
                     src={getFlagUrl(match.teamHome)} 
                     alt={match.teamHome} 
@@ -183,11 +183,11 @@ function MatchCard({ match }: { match: Match }) {
                   />
                 </div>
               </div>
-              <span className="font-bold text-sm text-center line-clamp-1 group-hover:text-blue-400 transition-colors">{match.teamHome}</span>
+              <span className="font-bold text-[10px] md:text-sm text-center line-clamp-2 group-hover:text-blue-400 transition-colors leading-tight">{match.teamHome}</span>
             </div>
             
             <div className="flex flex-col items-center gap-1">
-              <div className="text-4xl font-black tabular-nums tracking-tighter text-white">
+              <div className="text-2xl md:text-4xl font-black tabular-nums tracking-tighter text-white">
                 {(match.status === "SCHEDULED" && match.homeScore === null) ? (
                   <span className="text-gray-700 text-2xl uppercase">vs</span>
                 ) : (
@@ -200,10 +200,10 @@ function MatchCard({ match }: { match: Match }) {
               </div>
             </div>
 
-            <div className="flex flex-col items-center w-28 gap-4">
+            <div className="flex flex-col items-center w-20 md:w-28 gap-2 md:gap-4">
               <div className="relative">
                 <div className="absolute inset-0 bg-blue-500/20 blur-xl rounded-full group-hover:bg-blue-500/40 transition-all"></div>
-                <div className="relative w-20 h-20 bg-gray-800 rounded-full p-1 border-2 border-white/10 group-hover:border-blue-500/50 transition-all overflow-hidden shadow-2xl">
+                <div className="relative w-16 h-16 md:w-20 md:h-20 bg-gray-800 rounded-full p-1 border-2 border-white/10 group-hover:border-blue-500/50 transition-all overflow-hidden shadow-2xl">
                   <img 
                     src={getFlagUrl(match.teamAway)} 
                     alt={match.teamAway} 
@@ -211,7 +211,7 @@ function MatchCard({ match }: { match: Match }) {
                   />
                 </div>
               </div>
-              <span className="font-bold text-sm text-center line-clamp-1 group-hover:text-blue-400 transition-colors">{match.teamAway}</span>
+              <span className="font-bold text-[10px] md:text-sm text-center line-clamp-2 group-hover:text-blue-400 transition-colors leading-tight">{match.teamAway}</span>
             </div>
           </div>
           

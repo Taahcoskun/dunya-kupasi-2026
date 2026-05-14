@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const translationMap = {
+const translations = {
   "Mexico": "Meksika",
   "South Africa": "Güney Afrika",
   "South Korea": "Güney Kore",
@@ -20,6 +20,7 @@ const translationMap = {
   "Turkey": "Türkiye",
   "Germany": "Almanya",
   "Curacao": "Curaçao",
+  "Curaçao": "Curaçao",
   "Netherlands": "Hollanda",
   "Japan": "Japonya",
   "Ivory Coast": "Fildişi Sahili",
@@ -27,8 +28,7 @@ const translationMap = {
   "Sweden": "İsveç",
   "Tunisia": "Tunus",
   "Spain": "İspanya",
-  "Belgium": "Belçika",
-  "Egypt": "Mısır",
+  "Cape Verde": "Yeşil Burun Adaları",
   "Saudi Arabia": "Suudi Arabistan",
   "Uruguay": "Uruguay",
   "Iran": "İran",
@@ -49,40 +49,52 @@ const translationMap = {
   "Croatia": "Hırvatistan",
   "Ghana": "Gana",
   "Panama": "Panama",
-  "Cape Verde": "Yeşil Burun Adaları"
+  "Belgium": "Belçika",
+  "Egypt": "Mısır"
 };
 
 async function main() {
-  // Update Teams
+  console.log("Starting localization...");
+
+  // Update Teams table
   const teams = await prisma.team.findMany();
   for (const team of teams) {
-    const turkishName = translationMap[team.name];
-    if (turkishName) {
+    if (translations[team.name] && translations[team.name] !== team.name) {
       await prisma.team.update({
         where: { id: team.id },
-        data: { name: turkishName }
+        data: { name: translations[team.name] }
       });
-      console.log(`Updated team: ${team.name} -> ${turkishName}`);
+      console.log(`Translated team: ${team.name} -> ${translations[team.name]}`);
     }
   }
 
-  // Update Matches
+  // Update Matches table
   const matches = await prisma.match.findMany();
   for (const match of matches) {
-    const turkishHome = translationMap[match.teamHome];
-    const turkishAway = translationMap[match.teamAway];
+    let updated = false;
+    let newHome = match.teamHome;
+    let newAway = match.teamAway;
+
+    if (translations[match.teamHome] && translations[match.teamHome] !== match.teamHome) {
+      newHome = translations[match.teamHome];
+      updated = true;
+    }
     
-    await prisma.match.update({
-      where: { id: match.id },
-      data: {
-        teamHome: turkishHome || match.teamHome,
-        teamAway: turkishAway || match.teamAway
-      }
-    });
-    console.log(`Updated match: ${match.teamHome} vs ${match.teamAway}`);
+    if (translations[match.teamAway] && translations[match.teamAway] !== match.teamAway) {
+      newAway = translations[match.teamAway];
+      updated = true;
+    }
+
+    if (updated) {
+      await prisma.match.update({
+        where: { id: match.id },
+        data: { teamHome: newHome, teamAway: newAway }
+      });
+      console.log(`Translated match: ${match.teamHome} vs ${match.teamAway} -> ${newHome} vs ${newAway}`);
+    }
   }
 
-  console.log("Database localization complete.");
+  console.log("Database localization complete!");
 }
 
 main()

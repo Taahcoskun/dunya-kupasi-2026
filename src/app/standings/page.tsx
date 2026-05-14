@@ -84,7 +84,7 @@ export default function StandingsPage() {
         <div className="w-16 h-16 bg-blue-600/20 rounded-2xl flex items-center justify-center mb-4 border border-blue-500/30 shadow-xl shadow-blue-500/10">
           <Users className="w-8 h-8 text-blue-400" />
         </div>
-        <h1 className="text-5xl font-black text-center text-white mb-2 tracking-tight">
+        <h1 className="text-3xl md:text-5xl font-black text-center text-white mb-2 tracking-tight leading-tight">
           Puan <span className="text-gradient">Durumu</span>
         </h1>
         <p className="text-gray-400 text-center">
