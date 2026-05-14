@@ -7,6 +7,9 @@ type UserType = {
   id: string;
   username: string;
   totalPoints: number;
+  week1Points: number;
+  week2Points: number;
+  week3Points: number;
 };
 
 export default function LeaderboardPage() {
@@ -50,9 +53,12 @@ export default function LeaderboardPage() {
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-white/5 border-b border-white/10">
-                  <th className="p-4 md:p-6 text-gray-400 font-bold uppercase text-xs tracking-widest w-16 md:w-24 text-center">Sıra</th>
-                  <th className="p-4 md:p-6 text-gray-400 font-bold uppercase text-xs tracking-widest">Kullanıcı</th>
-                  <th className="p-4 md:p-6 text-gray-400 font-bold uppercase text-xs tracking-widest text-right w-24 md:w-32">Puan</th>
+                  <th className="p-4 md:p-6 text-gray-400 font-bold uppercase text-xs tracking-widest w-16 md:w-24 text-center whitespace-nowrap">Sıra</th>
+                  <th className="p-4 md:p-6 text-gray-400 font-bold uppercase text-xs tracking-widest whitespace-nowrap">Kullanıcı</th>
+                  <th className="p-4 md:p-6 text-gray-400 font-bold uppercase text-xs tracking-widest text-center whitespace-nowrap hidden sm:table-cell">1. Hafta</th>
+                  <th className="p-4 md:p-6 text-gray-400 font-bold uppercase text-xs tracking-widest text-center whitespace-nowrap hidden sm:table-cell">2. Hafta</th>
+                  <th className="p-4 md:p-6 text-gray-400 font-bold uppercase text-xs tracking-widest text-center whitespace-nowrap hidden sm:table-cell">3. Hafta</th>
+                  <th className="p-4 md:p-6 text-gray-400 font-bold uppercase text-xs tracking-widest text-right w-24 md:w-32 whitespace-nowrap">Toplam</th>
                 </tr>
               </thead>
               <tbody>
@@ -93,6 +99,21 @@ export default function LeaderboardPage() {
                         </span>
                       </div>
                     </td>
+                    <td className="p-4 md:p-6 text-center hidden sm:table-cell">
+                      <span className="font-semibold text-gray-300 tabular-nums">
+                        {user.week1Points}
+                      </span>
+                    </td>
+                    <td className="p-4 md:p-6 text-center hidden sm:table-cell">
+                      <span className="font-semibold text-gray-300 tabular-nums">
+                        {user.week2Points}
+                      </span>
+                    </td>
+                    <td className="p-4 md:p-6 text-center hidden sm:table-cell">
+                      <span className="font-semibold text-gray-300 tabular-nums">
+                        {user.week3Points}
+                      </span>
+                    </td>
                     <td className="p-4 md:p-6 text-right">
                       <span className="font-black text-lg md:text-xl text-blue-400 tabular-nums">
                         {user.totalPoints}
@@ -102,7 +123,7 @@ export default function LeaderboardPage() {
                 ))}
                 {users.length === 0 && (
                   <tr>
-                    <td colSpan={3} className="p-12 md:p-24 text-center text-gray-500">
+                    <td colSpan={6} className="p-12 md:p-24 text-center text-gray-500">
                       <User className="w-8 h-8 md:w-12 md:h-12 mx-auto mb-4 opacity-20" />
                       <p className="text-sm md:text-lg font-medium">Henüz tahminci bulunmuyor.</p>
                     </td>
