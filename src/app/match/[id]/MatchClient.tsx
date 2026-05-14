@@ -186,7 +186,11 @@ export default function MatchClient({
     } catch (err) {
       setAdminError("Bağlantı hatası.");
     } finally {
-      setIsSaving  return (
+      setIsSaving(false);
+    }
+  };
+
+  return (
     <div className="relative min-h-screen">
       {/* Animated Background */}
       <div className="bg-animate">
@@ -502,13 +506,6 @@ export default function MatchClient({
           </div>
         )}
       </div>
-    </div>
-  );
-dy>
-            </table>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
