@@ -160,11 +160,11 @@ function MatchCard({ match }: { match: Match }) {
   return (
     <Link href={`/match/${match.id}`} className="group relative">
       <div className="glass-dark rounded-[2rem] p-1 transition-all duration-500 hover:scale-[1.03] hover:shadow-[0_20px_50px_rgba(59,130,246,0.15)] border border-white/5 group-hover:border-blue-500/30 overflow-hidden">
-        <div className="bg-gray-900/50 rounded-[1.8rem] p-6 h-full flex flex-col relative z-10 transition-all duration-500 group-hover:bg-gray-900/20">
+        <div className="bg-gray-900/50 rounded-[1.8rem] p-5 md:p-6 h-full flex flex-col relative z-10 transition-all duration-500 group-hover:bg-gray-900/20">
           
-          {/* Prediction Overlay on Hover */}
+          {/* Prediction Overlay on Hover (Desktop Only) */}
           {match.userPrediction && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-blue-600/90 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 rounded-[1.8rem] p-6 text-white translate-y-4 group-hover:translate-y-0">
+            <div className="absolute inset-0 hidden md:flex flex-col items-center justify-center bg-blue-600/90 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 rounded-[1.8rem] p-6 text-white translate-y-4 group-hover:translate-y-0">
               <Trophy className="w-10 h-10 mb-3 text-white drop-shadow-lg" />
               <p className="text-xs font-black tracking-widest uppercase mb-1 opacity-80">Senin Tahminin</p>
               <div className="text-4xl font-black mb-4 tabular-nums">
@@ -187,8 +187,8 @@ function MatchCard({ match }: { match: Match }) {
             </div>
           )}
 
-          <div className="flex justify-between items-center mb-8">
-            <div className="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-widest">
+          <div className="flex justify-between items-center mb-6 md:mb-8">
+            <div className="flex items-center gap-2 text-[10px] md:text-xs font-bold text-gray-500 uppercase tracking-widest">
               <Timer className="w-3.5 h-3.5" />
               {new Date(match.kickoffTime).toLocaleDateString('tr-TR', { weekday: 'short', month: 'short', day: 'numeric' })}
               <span className="text-white/20">•</span>
@@ -196,28 +196,28 @@ function MatchCard({ match }: { match: Match }) {
             </div>
             
             {match.status === "LIVE" && (
-              <div className="bg-red-500/10 text-red-500 text-[10px] font-black px-2.5 py-1 rounded-full flex items-center gap-1.5 border border-red-500/20 animate-pulse">
+              <div className="bg-red-500/10 text-red-500 text-[9px] md:text-[10px] font-black px-2 md:px-2.5 py-1 rounded-full flex items-center gap-1.5 border border-red-500/20 animate-pulse">
                 <div className="w-1.5 h-1.5 rounded-full bg-red-500"></div>
                 CANLI
               </div>
             )}
             {match.status === "FINISHED" && (
-              <div className="bg-gray-500/10 text-gray-400 text-[10px] font-black px-2.5 py-1 rounded-full border border-white/10">
+              <div className="bg-gray-500/10 text-gray-400 text-[9px] md:text-[10px] font-black px-2 md:px-2.5 py-1 rounded-full border border-white/10">
                 BİTTİ
               </div>
             )}
             {match.status === "SCHEDULED" && (
-              <div className="bg-blue-500/10 text-blue-400 text-[10px] font-black px-2.5 py-1 rounded-full border border-blue-500/10">
+              <div className="bg-blue-500/10 text-blue-400 text-[9px] md:text-[10px] font-black px-2 md:px-2.5 py-1 rounded-full border border-blue-500/10">
                 GELECEK
               </div>
             )}
           </div>
           
-          <div className="flex justify-between items-center px-1 md:px-2 mb-8">
+          <div className="flex justify-between items-center px-1 md:px-2 mb-6 md:mb-8">
             <div className="flex flex-col items-center w-20 md:w-28 gap-2 md:gap-4">
               <div className="relative">
                 <div className="absolute inset-0 bg-blue-500/20 blur-xl rounded-full group-hover:bg-blue-500/40 transition-all"></div>
-                <div className="relative w-16 h-16 md:w-20 md:h-20 bg-gray-800 rounded-full p-1 border-2 border-white/10 group-hover:border-blue-500/50 transition-all overflow-hidden shadow-2xl">
+                <div className="relative w-14 h-14 md:w-20 md:h-20 bg-gray-800 rounded-full p-1 border-2 border-white/10 group-hover:border-blue-500/50 transition-all overflow-hidden shadow-2xl">
                   <img 
                     src={getFlagUrl(match.teamHome)} 
                     alt={match.teamHome} 
@@ -231,9 +231,9 @@ function MatchCard({ match }: { match: Match }) {
             <div className="flex flex-col items-center gap-1">
               <div className="text-2xl md:text-4xl font-black tabular-nums tracking-tighter text-white">
                 {(match.status === "SCHEDULED" && match.homeScore === null) ? (
-                  <span className="text-gray-700 text-2xl uppercase">vs</span>
+                  <span className="text-gray-700 text-xl md:text-2xl uppercase">vs</span>
                 ) : (
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 md:gap-3">
                     <span className={(match.homeScore ?? 0) > (match.awayScore ?? 0) ? "text-blue-400" : ""}>{match.homeScore ?? 0}</span>
                     <span className="text-white/10">-</span>
                     <span className={(match.awayScore ?? 0) > (match.homeScore ?? 0) ? "text-blue-400" : ""}>{match.awayScore ?? 0}</span>
@@ -245,7 +245,7 @@ function MatchCard({ match }: { match: Match }) {
             <div className="flex flex-col items-center w-20 md:w-28 gap-2 md:gap-4">
               <div className="relative">
                 <div className="absolute inset-0 bg-blue-500/20 blur-xl rounded-full group-hover:bg-blue-500/40 transition-all"></div>
-                <div className="relative w-16 h-16 md:w-20 md:h-20 bg-gray-800 rounded-full p-1 border-2 border-white/10 group-hover:border-blue-500/50 transition-all overflow-hidden shadow-2xl">
+                <div className="relative w-14 h-14 md:w-20 md:h-20 bg-gray-800 rounded-full p-1 border-2 border-white/10 group-hover:border-blue-500/50 transition-all overflow-hidden shadow-2xl">
                   <img 
                     src={getFlagUrl(match.teamAway)} 
                     alt={match.teamAway} 
@@ -257,8 +257,26 @@ function MatchCard({ match }: { match: Match }) {
             </div>
           </div>
           
-          <div className="mt-auto pt-6 flex justify-center">
-            <div className="flex items-center gap-2 text-blue-400 group-hover:text-white group-hover:bg-blue-600 px-6 py-2 rounded-full text-[10px] font-black transition-all border border-blue-500/20 group-hover:border-blue-600 shadow-lg shadow-blue-500/5 tracking-widest">
+          {/* Prediction Info (Mobile Only) */}
+          {match.userPrediction && (
+            <div className="md:hidden mt-2 mb-4 p-3 bg-blue-600/10 rounded-2xl border border-blue-500/20 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Trophy className="w-4 h-4 text-blue-400" />
+                <span className="text-[10px] font-black text-blue-400 uppercase tracking-widest">Tahmin</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-sm font-black text-white">{match.userPrediction.predictedHomeScore} - {match.userPrediction.predictedAwayScore}</span>
+                {match.status === "FINISHED" && (
+                  <span className="bg-blue-600 text-white text-[9px] font-black px-2 py-0.5 rounded-full">
+                    +{match.userPrediction.pointsAwarded ?? 0} Puan
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
+
+          <div className="mt-auto pt-4 md:pt-6 flex justify-center">
+            <div className="flex items-center gap-2 text-blue-400 group-hover:text-white group-hover:bg-blue-600 px-5 md:px-6 py-2 rounded-full text-[9px] md:text-[10px] font-black transition-all border border-blue-500/20 group-hover:border-blue-600 shadow-lg shadow-blue-500/5 tracking-widest">
               DETAY & TAHMİN
               <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
             </div>
