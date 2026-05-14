@@ -32,7 +32,7 @@ export default function LeaderboardPage() {
   }, []);
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-4xl">
+    <div className="container mx-auto px-4 py-12 max-w-6xl">
       <div className="flex flex-col items-center mb-12">
         <div className="w-16 h-16 bg-blue-600/20 rounded-2xl flex items-center justify-center mb-4 border border-blue-500/30 shadow-xl shadow-blue-500/10">
           <Trophy className="w-8 h-8 text-blue-400" />
