@@ -225,25 +225,25 @@ export default function MatchClient({
               {kickoff.toLocaleString('tr-TR', { weekday: 'long', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false })}
             </div>
 
-            <div className="flex flex-col md:flex-row justify-between items-center mb-4 md:mb-10 gap-8 md:gap-4">
+            <div className="flex flex-row justify-between items-center mb-4 md:mb-10 gap-2 md:gap-4">
               {/* Home Team */}
-              <div className="flex flex-row md:flex-col items-center justify-center w-full md:w-1/3 gap-4 md:gap-6">
-                <div className="relative order-1 md:order-none">
+              <div className="flex flex-col items-center justify-center w-1/3 gap-4 md:gap-6">
+                <div className="relative">
                   <div className="absolute inset-0 bg-blue-500/20 blur-[30px] md:blur-[40px] rounded-full"></div>
                   <div className="relative w-16 h-16 md:w-40 md:h-40 bg-gray-800 rounded-full p-1 md:p-1.5 border-2 border-white/10 overflow-hidden shadow-2xl">
                     <img src={getFlagUrl(match.teamHome)} alt={match.teamHome} className="w-full h-full object-cover rounded-full" />
                   </div>
                 </div>
-                <span className="text-xl md:text-2xl font-black text-white text-center flex-1 md:flex-none order-2 md:order-none">{match.teamHome}</span>
+                <span className="hidden md:block text-xl md:text-2xl font-black text-white text-center">{match.teamHome}</span>
               </div>
               
               {/* Score / VS */}
-              <div className="w-full md:w-1/3 flex flex-col items-center justify-center order-first md:order-none mb-4 md:mb-0">
-                <div className="text-5xl md:text-7xl font-black tabular-nums tracking-tighter text-white drop-shadow-2xl">
+              <div className="w-1/3 flex flex-col items-center justify-center">
+                <div className="text-4xl md:text-7xl font-black tabular-nums tracking-tighter text-white drop-shadow-2xl">
                   {(match.status === "SCHEDULED" && match.homeScore === null) ? (
                     <span className="text-gray-800">VS</span>
                   ) : (
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2 md:gap-4">
                       <span className={(match.homeScore ?? 0) > (match.awayScore ?? 0) ? "text-blue-400" : ""}>{match.homeScore ?? 0}</span>
                       <span className="text-white/10">-</span>
                       <span className={(match.awayScore ?? 0) > (match.homeScore ?? 0) ? "text-blue-400" : ""}>{match.awayScore ?? 0}</span>
@@ -254,14 +254,14 @@ export default function MatchClient({
               </div>
 
               {/* Away Team */}
-              <div className="flex flex-row-reverse md:flex-col items-center justify-center w-full md:w-1/3 gap-4 md:gap-6">
-                <div className="relative order-1 md:order-none">
+              <div className="flex flex-col items-center justify-center w-1/3 gap-4 md:gap-6">
+                <div className="relative">
                   <div className="absolute inset-0 bg-blue-500/20 blur-[30px] md:blur-[40px] rounded-full"></div>
                   <div className="relative w-16 h-16 md:w-40 md:h-40 bg-gray-800 rounded-full p-1 md:p-1.5 border-2 border-white/10 overflow-hidden shadow-2xl">
                     <img src={getFlagUrl(match.teamAway)} alt={match.teamAway} className="w-full h-full object-cover rounded-full" />
                   </div>
                 </div>
-                <span className="text-xl md:text-2xl font-black text-white text-center flex-1 md:flex-none order-2 md:order-none">{match.teamAway}</span>
+                <span className="hidden md:block text-xl md:text-2xl font-black text-white text-center">{match.teamAway}</span>
               </div>
             </div>
 
