@@ -13,20 +13,19 @@ export const teamFlags: { [key: string]: string } = {
   "Kongo DC": "cd", "Özbekistan": "uz", "Kolombiya": "co", "İngiltere": "gb-eng",
   "Hırvatistan": "hr", "Gana": "gh", "Panama": "pa", "Yeşil Burun Adaları": "cv",
 
-  // English Names
+  // English Names (Only the ones that are different from Turkish)
   "Mexico": "mx", "South Africa": "za", "South Korea": "kr", "Czechia": "cz",
-  "Canada": "ca", "Bosnia-Herzegovina": "ba", "USA": "us", "Paraguay": "py",
+  "Canada": "ca", "Bosnia-Herzegovina": "ba", "USA": "us", 
   "Qatar": "qa", "Switzerland": "ch", "Brazil": "br", "Morocco": "ma",
-  "Haiti": "ht", "Scotland": "gb-sct", "Australia": "au", "Turkey": "tr",
+  "Scotland": "gb-sct", "Australia": "au", "Turkey": "tr",
   "Germany": "de", "Curacao": "cw", "Netherlands": "nl", "Japan": "jp",
   "Ivory Coast": "ci", "Ecuador": "ec", "Sweden": "se", "Tunisia": "tn",
   "Spain": "es", "Belgium": "be", "Egypt": "eg", "Saudi Arabia": "sa",
-  "Uruguay": "uy", "Iran": "ir", "New Zealand": "nz", "France": "fr",
-  "Senegal": "sn", "Iraq": "iq", "Norway": "no", "Argentina": "ar",
+  "Iran": "ir", "New Zealand": "nz", "France": "fr",
+  "Iraq": "iq", "Norway": "no", "Argentina": "ar",
   "Algeria": "dz", "Austria": "at", "Jordan": "jo", "Portugal": "pt",
   "DR Congo": "cd", "Uzbekistan": "uz", "Colombia": "co", "England": "gb-eng",
-  "Croatia": "hr", "Ghana": "gh", "Panama": "pa", "Cape Verde": "cv",
-  "Bosnia-Herzegovina": "ba"
+  "Croatia": "hr", "Ghana": "gh", "Cape Verde": "cv"
 };
 
 export function getFlagUrl(teamName: string): string {
