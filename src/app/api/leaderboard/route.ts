@@ -45,7 +45,7 @@ export async function GET(req: Request) {
       user.predictions.forEach(p => {
         if (p.pointsAwarded !== null && p.pointsAwarded !== undefined) {
           totalPlayed++;
-          if (p.pointsAwarded === 3) {
+          if (p.pointsAwarded === 4) {
             exactHits++;
           }
           

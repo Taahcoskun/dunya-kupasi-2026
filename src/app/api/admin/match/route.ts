@@ -35,7 +35,7 @@ export async function POST(req: Request) {
         const predResult = predHome > predAway ? "HOME" : predHome < predAway ? "AWAY" : "DRAW";
 
         if (predHome === matchHome && predAway === matchAway) {
-          points = 3;
+          points = 4;
         } else if (predResult === matchResult) {
           points = 1;
         }
