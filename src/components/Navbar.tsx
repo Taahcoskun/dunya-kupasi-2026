@@ -16,9 +16,9 @@ export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <nav className="glass sticky top-0 z-50 py-3 px-6 shadow-2xl mb-4">
+    <nav className="glass sticky top-0 z-50 py-3 px-3 md:px-6 shadow-2xl mb-4">
       <div className="container mx-auto flex justify-between items-center">
-        <Link href="/" className="flex items-center gap-2 group">
+        <Link href="/" className="flex items-center gap-2 group shrink-0">
           <div className="bg-blue-600 p-1.5 rounded-lg group-hover:rotate-12 transition-transform shadow-lg shadow-blue-500/20">
             <WorldCupLogo className="w-6 h-6 text-white drop-shadow-md" />
           </div>
@@ -28,16 +28,16 @@ export default function Navbar() {
         </Link>
         
         <div className="flex gap-1 md:gap-2 items-center bg-black/20 p-1 md:p-1.5 rounded-2xl border border-white/5">
-          <Link href="/" className={`flex items-center gap-2 px-3 md:px-4 py-2 rounded-xl transition-all duration-300 ${pathname === "/" ? "bg-blue-600/20 text-blue-400 font-bold border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.15)]" : "text-gray-400 hover:text-white hover:bg-white/5 font-medium border border-transparent"}`}>
-            <Calendar className={`w-5 h-5 md:w-4 md:h-4 ${pathname === "/" ? "text-blue-400" : ""}`} />
+          <Link href="/" className={`flex items-center gap-1.5 md:gap-2 px-2 md:px-4 py-1.5 md:py-2 rounded-xl transition-all duration-300 ${pathname === "/" ? "bg-blue-600/20 text-blue-400 font-bold border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.15)]" : "text-gray-400 hover:text-white hover:bg-white/5 font-medium border border-transparent"}`}>
+            <Calendar className={`w-4 h-4 md:w-4 md:h-4 ${pathname === "/" ? "text-blue-400" : ""}`} />
             <span className="hidden md:inline">Fikstür</span>
           </Link>
-          <Link href="/leaderboard" className={`flex items-center gap-2 px-3 md:px-4 py-2 rounded-xl transition-all duration-300 ${pathname === "/leaderboard" ? "bg-blue-600/20 text-blue-400 font-bold border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.15)]" : "text-gray-400 hover:text-white hover:bg-white/5 font-medium border border-transparent"}`}>
-            <LayoutDashboard className={`w-5 h-5 md:w-4 md:h-4 ${pathname === "/leaderboard" ? "text-blue-400" : ""}`} />
+          <Link href="/leaderboard" className={`flex items-center gap-1.5 md:gap-2 px-2 md:px-4 py-1.5 md:py-2 rounded-xl transition-all duration-300 ${pathname === "/leaderboard" ? "bg-blue-600/20 text-blue-400 font-bold border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.15)]" : "text-gray-400 hover:text-white hover:bg-white/5 font-medium border border-transparent"}`}>
+            <LayoutDashboard className={`w-4 h-4 md:w-4 md:h-4 ${pathname === "/leaderboard" ? "text-blue-400" : ""}`} />
             <span className="hidden md:inline">Liderlik</span>
           </Link>
-          <Link href="/extra" className={`flex items-center gap-2 px-3 md:px-4 py-2 rounded-xl transition-all duration-300 ${pathname === "/extra" ? "bg-purple-500/20 text-purple-400 font-bold border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.15)]" : "text-gray-400 hover:text-white hover:bg-white/5 font-medium border border-transparent"}`}>
-            <Star className={`w-5 h-5 md:w-4 md:h-4 ${pathname === "/extra" ? "text-purple-400 fill-purple-400" : "text-purple-400/70"}`} />
+          <Link href="/extra" className={`flex items-center gap-1.5 md:gap-2 px-2 md:px-4 py-1.5 md:py-2 rounded-xl transition-all duration-300 ${pathname === "/extra" ? "bg-purple-500/20 text-purple-400 font-bold border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.15)]" : "text-gray-400 hover:text-white hover:bg-white/5 font-medium border border-transparent"}`}>
+            <Star className={`w-4 h-4 md:w-4 md:h-4 ${pathname === "/extra" ? "text-purple-400 fill-purple-400" : "text-purple-400/70"}`} />
             <span className="hidden lg:inline">Ekstra</span>
           </Link>
           
@@ -51,20 +51,20 @@ export default function Navbar() {
               </div>
               <button 
                 onClick={() => signOut()}
-                className="flex items-center gap-1.5 md:gap-2 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white px-2.5 md:px-4 py-2 rounded-xl text-xs md:text-sm font-semibold transition-all border border-red-500/20 hover:border-red-500 shadow-lg shadow-red-500/5"
+                className="flex items-center gap-1 md:gap-2 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white px-2 md:px-4 py-1.5 md:py-2 rounded-xl text-xs md:text-sm font-semibold transition-all border border-red-500/20 hover:border-red-500 shadow-lg shadow-red-500/5"
               >
-                <LogOut className="w-4 h-4" />
+                <LogOut className="w-3.5 h-3.5 md:w-4 md:h-4" />
                 <span>Çıkış Yap</span>
               </button>
             </div>
           ) : (
-            <div className="flex gap-1.5 md:gap-2 ml-1 md:ml-2">
-              <Link href="/login" className="flex items-center gap-1.5 md:gap-2 px-2.5 md:px-4 py-2 rounded-xl hover:bg-white/5 text-white text-xs md:text-sm font-semibold transition-all">
-                <LogIn className="w-4 h-4" />
+            <div className="flex gap-1 md:gap-2 ml-1 md:ml-2">
+              <Link href="/login" className="flex items-center gap-1 md:gap-2 px-2 md:px-4 py-1.5 md:py-2 rounded-xl hover:bg-white/5 text-white text-xs md:text-sm font-semibold transition-all">
+                <LogIn className="w-3.5 h-3.5 md:w-4 md:h-4" />
                 <span>Giriş Yap</span>
               </Link>
-              <Link href="/register" className="flex items-center gap-1.5 md:gap-2 bg-blue-600 hover:bg-blue-500 text-white px-3 md:px-5 py-2 rounded-xl text-xs md:text-sm font-bold transition-all shadow-lg shadow-blue-500/30 border border-blue-400/20">
-                <UserPlus className="w-4 h-4" />
+              <Link href="/register" className="flex items-center gap-1 md:gap-2 bg-blue-600 hover:bg-blue-500 text-white px-2 md:px-5 py-1.5 md:py-2 rounded-xl text-xs md:text-sm font-bold transition-all shadow-lg shadow-blue-500/30 border border-blue-400/20">
+                <UserPlus className="w-3.5 h-3.5 md:w-4 md:h-4" />
                 <span>Kayıt Ol</span>
               </Link>
             </div>
