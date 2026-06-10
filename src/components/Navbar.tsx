@@ -32,10 +32,6 @@ export default function Navbar() {
             <Calendar className={`w-5 h-5 md:w-4 md:h-4 ${pathname === "/" ? "text-blue-400" : ""}`} />
             <span className="hidden md:inline">Fikstür</span>
           </Link>
-          <Link href="/standings" className={`flex items-center gap-2 px-3 md:px-4 py-2 rounded-xl transition-all duration-300 ${pathname === "/standings" ? "bg-blue-600/20 text-blue-400 font-bold border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.15)]" : "text-gray-400 hover:text-white hover:bg-white/5 font-medium border border-transparent"}`}>
-            <Users className={`w-5 h-5 md:w-4 md:h-4 ${pathname === "/standings" ? "text-blue-400" : ""}`} />
-            <span className="hidden md:inline">Puan Durumu</span>
-          </Link>
           <Link href="/leaderboard" className={`flex items-center gap-2 px-3 md:px-4 py-2 rounded-xl transition-all duration-300 ${pathname === "/leaderboard" ? "bg-blue-600/20 text-blue-400 font-bold border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.15)]" : "text-gray-400 hover:text-white hover:bg-white/5 font-medium border border-transparent"}`}>
             <LayoutDashboard className={`w-5 h-5 md:w-4 md:h-4 ${pathname === "/leaderboard" ? "text-blue-400" : ""}`} />
             <span className="hidden md:inline">Liderlik</span>
