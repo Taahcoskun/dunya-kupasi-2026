@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { Trophy, Star, Target, Zap, Lock, Save, Loader2, AlertCircle } from "lucide-react";
-import { teamFlags } from "@/lib/teams";
+import { turkishTeams } from "@/lib/teams";
 
 export default function ExtraPredictionsPage() {
   const { data: session, status } = useSession();
@@ -21,7 +21,7 @@ export default function ExtraPredictionsPage() {
   });
   const [allPredictions, setAllPredictions] = useState<any[]>([]);
 
-  const teams = Object.keys(teamFlags).sort();
+  const teams = [...turkishTeams].sort();
   const LOCK_TIME = new Date("2026-06-11T19:00:00Z");
   const isAdmin = session?.user?.name === "ADMIN" || (session?.user as any)?.role === "ADMIN";
 

@@ -28,6 +28,21 @@ export const teamFlags: { [key: string]: string } = {
   "Croatia": "hr", "Ghana": "gh", "Cape Verde": "cv"
 };
 
+export const turkishTeams = [
+  "Meksika", "Güney Afrika", "Güney Kore", "Çekya",
+  "Kanada", "Bosna-Hersek", "ABD", "Paraguay",
+  "Katar", "İsviçre", "Brezilya", "Fas",
+  "Haiti", "İskoçya", "Avustralya", "Türkiye",
+  "Almanya", "Curaçao", "Hollanda", "Japonya",
+  "Fildişi Sahili", "Ekvador", "İsveç", "Tunus",
+  "İspanya", "Belçika", "Mısır", "Suudi Arabistan",
+  "Uruguay", "İran", "Yeni Zelanda", "Fransa",
+  "Senegal", "Irak", "Norveç", "Arjantin",
+  "Cezayir", "Avusturya", "Ürdün", "Portekiz",
+  "Kongo DC", "Özbekistan", "Kolombiya", "İngiltere",
+  "Hırvatistan", "Gana", "Panama", "Yeşil Burun Adaları"
+];
+
 export function getFlagUrl(teamName: string): string {
   const code = teamFlags[teamName];
   if (!code) return `https://flagcdn.com/w80/un.png`; // Fallback to UN flag
