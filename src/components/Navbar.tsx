@@ -51,21 +51,21 @@ export default function Navbar() {
               </div>
               <button 
                 onClick={() => signOut()}
-                className="flex items-center gap-2 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white px-3 md:px-4 py-2 rounded-xl text-sm font-semibold transition-all border border-red-500/20 hover:border-red-500 shadow-lg shadow-red-500/5"
+                className="flex items-center gap-1.5 md:gap-2 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white px-2.5 md:px-4 py-2 rounded-xl text-xs md:text-sm font-semibold transition-all border border-red-500/20 hover:border-red-500 shadow-lg shadow-red-500/5"
               >
-                <LogOut className="w-5 h-5 md:w-4 md:h-4" />
-                <span className="hidden md:inline">Çıkış Yap</span>
+                <LogOut className="w-4 h-4" />
+                <span>Çıkış Yap</span>
               </button>
             </div>
           ) : (
-            <div className="flex gap-2 ml-1 md:ml-2">
-              <Link href="/login" className="flex items-center gap-2 px-3 md:px-4 py-2 rounded-xl hover:bg-white/5 text-white text-sm font-semibold transition-all">
-                <LogIn className="w-5 h-5 md:w-4 md:h-4" />
-                <span className="hidden md:inline">Giriş Yap</span>
+            <div className="flex gap-1.5 md:gap-2 ml-1 md:ml-2">
+              <Link href="/login" className="flex items-center gap-1.5 md:gap-2 px-2.5 md:px-4 py-2 rounded-xl hover:bg-white/5 text-white text-xs md:text-sm font-semibold transition-all">
+                <LogIn className="w-4 h-4" />
+                <span>Giriş Yap</span>
               </Link>
-              <Link href="/register" className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-3 py-2 md:px-5 rounded-xl text-sm font-bold transition-all shadow-lg shadow-blue-500/30 border border-blue-400/20">
-                <UserPlus className="w-5 h-5 md:w-4 md:h-4" />
-                <span className="hidden md:inline">Kayıt Ol</span>
+              <Link href="/register" className="flex items-center gap-1.5 md:gap-2 bg-blue-600 hover:bg-blue-500 text-white px-3 md:px-5 py-2 rounded-xl text-xs md:text-sm font-bold transition-all shadow-lg shadow-blue-500/30 border border-blue-400/20">
+                <UserPlus className="w-4 h-4" />
+                <span>Kayıt Ol</span>
               </Link>
             </div>
           )}
