@@ -50,13 +50,13 @@ export default function Home() {
     }
     if (activeTab === "WEEK1") {
       const d = new Date(m.kickoffTime);
-      // Round 1 matches + June 18 matches (June 11 - June 19 morning)
-      return d >= new Date("2026-06-11") && d <= new Date("2026-06-19T03:00:00Z");
+      // Round 1 matches (June 11 - June 18 morning)
+      return d >= new Date("2026-06-11") && d <= new Date("2026-06-18T10:00:00Z");
     }
     if (activeTab === "WEEK2") {
       const d = new Date(m.kickoffTime);
-      // Round 2 matches (June 19 afternoon - June 24 morning)
-      return d >= new Date("2026-06-19T04:00:00Z") && d <= new Date("2026-06-24T12:00:00Z");
+      // Round 2 matches (June 18 afternoon - June 24 morning)
+      return d >= new Date("2026-06-18T11:00:00Z") && d <= new Date("2026-06-24T12:00:00Z");
     }
     if (activeTab === "WEEK3") {
       const d = new Date(m.kickoffTime);
