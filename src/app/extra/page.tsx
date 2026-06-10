@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { Trophy, Star, Target, Zap, Lock, Save, Loader2, AlertCircle, Shield, ShieldAlert } from "lucide-react";
+import { Trophy, Star, Target, Zap, Lock, Save, Loader2, AlertCircle } from "lucide-react";
 import { teamFlags } from "@/lib/teams";
 
 export default function ExtraPredictionsPage() {
@@ -15,8 +15,7 @@ export default function ExtraPredictionsPage() {
   
   const [predictions, setPredictions] = useState({
     winnerTeam: "",
-    leastConcededTeam: "",
-    mostConcededTeam: "",
+    bestPlayer: "",
     topScorer: "",
     topAssister: ""
   });
@@ -46,8 +45,7 @@ export default function ExtraPredictionsPage() {
           if (data && !data.error) {
             setPredictions({
               winnerTeam: data.winnerTeam || "",
-              leastConcededTeam: data.leastConcededTeam || "",
-              mostConcededTeam: data.mostConcededTeam || "",
+              bestPlayer: data.bestPlayer || "",
               topScorer: data.topScorer || "",
               topAssister: data.topAssister || ""
             });
@@ -176,46 +174,22 @@ export default function ExtraPredictionsPage() {
               </select>
             </div>
 
-            {/* Least Conceded Team */}
+            {/* Turnuvanın En İyi Oyuncusu */}
             <div className="glass-dark rounded-[2rem] p-8 border border-white/5 relative group hover:border-blue-500/30 transition-all">
               <div className="flex items-center gap-4 mb-6">
                 <div className="p-3 bg-blue-500/20 rounded-xl text-blue-400">
-                  <Shield className="w-6 h-6" />
+                  <Star className="w-6 h-6" />
                 </div>
-                <h3 className="text-lg font-black text-white">En Az Gol Yiyen Takım</h3>
+                <h3 className="text-lg font-black text-white">Turnuvanın En İyi Oyuncusu</h3>
               </div>
-              <select
+              <input
                 disabled={locked}
-                value={predictions.leastConcededTeam}
-                onChange={(e) => setPredictions({...predictions, leastConcededTeam: e.target.value})}
-                className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-4 text-white focus:outline-none focus:border-blue-500 transition-all appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <option value="" className="bg-gray-900">Takım Seçin</option>
-                {teams.map(team => (
-                  <option key={team} value={team} className="bg-gray-900">{team}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* Most Conceded Team */}
-            <div className="glass-dark rounded-[2rem] p-8 border border-white/5 relative group hover:border-red-500/30 transition-all">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="p-3 bg-red-500/20 rounded-xl text-red-400">
-                  <ShieldAlert className="w-6 h-6" />
-                </div>
-                <h3 className="text-lg font-black text-white">En Çok Gol Yiyen Takım</h3>
-              </div>
-              <select
-                disabled={locked}
-                value={predictions.mostConcededTeam}
-                onChange={(e) => setPredictions({...predictions, mostConcededTeam: e.target.value})}
-                className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-4 text-white focus:outline-none focus:border-red-500 transition-all appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <option value="" className="bg-gray-900">Takım Seçin</option>
-                {teams.map(team => (
-                  <option key={team} value={team} className="bg-gray-900">{team}</option>
-                ))}
-              </select>
+                type="text"
+                placeholder="Oyuncu adı yazın"
+                value={predictions.bestPlayer}
+                onChange={(e) => setPredictions({...predictions, bestPlayer: e.target.value})}
+                className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-4 text-white focus:outline-none focus:border-blue-500 transition-all placeholder:text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+              />
             </div>
 
             {/* Top Scorer */}
@@ -298,8 +272,7 @@ export default function ExtraPredictionsPage() {
                     <tr className="bg-white/5 text-gray-400 text-xs font-black uppercase tracking-widest border-b border-white/5">
                       <th className="px-6 py-4">Kullanıcı</th>
                       <th className="px-6 py-4">Şampiyon</th>
-                      <th className="px-6 py-4">En Az Gol Yiyen</th>
-                      <th className="px-6 py-4">En Çok Gol Yiyen</th>
+                      <th className="px-6 py-4">En İyi Oyuncu</th>
                       <th className="px-6 py-4">Gol Kralı</th>
                       <th className="px-6 py-4">Asist Kralı</th>
                     </tr>
@@ -309,14 +282,13 @@ export default function ExtraPredictionsPage() {
                       <tr key={i} className="hover:bg-white/5 transition-colors">
                         <td className="px-6 py-4 font-bold text-white">{pred.user.username}</td>
                         <td className="px-6 py-4 text-purple-400 font-bold">{pred.winnerTeam || "-"}</td>
-                        <td className="px-6 py-4 text-blue-400 font-medium">{pred.leastConcededTeam || "-"}</td>
-                        <td className="px-6 py-4 text-red-400 font-medium">{pred.mostConcededTeam || "-"}</td>
+                        <td className="px-6 py-4 text-blue-400 font-medium">{pred.bestPlayer || "-"}</td>
                         <td className="px-6 py-4 text-green-400 font-medium">{pred.topScorer || "-"}</td>
                         <td className="px-6 py-4 text-yellow-400 font-medium">{pred.topAssister || "-"}</td>
                       </tr>
                     )) : (
                       <tr>
-                        <td colSpan={6} className="px-6 py-8 text-center text-gray-500 font-bold italic">
+                        <td colSpan={5} className="px-6 py-8 text-center text-gray-500 font-bold italic">
                           Henüz hiçbir kullanıcı ekstra tahmin yapmadı.
                         </td>
                       </tr>
