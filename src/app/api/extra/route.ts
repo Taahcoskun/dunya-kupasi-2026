@@ -37,7 +37,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const { winnerTeam, bestPlayer, topScorer, topAssister } = await req.json();
+    const { winnerTeam, leastConcededTeam, mostConcededTeam, topScorer, topAssister } = await req.json();
     const userId = (session.user as any).id;
     const updatedAt = new Date().toISOString();
 
@@ -52,11 +52,11 @@ export async function POST(req: Request) {
     if (existing) {
       await prisma.extraPrediction.update({
         where: { userId },
-        data: { winnerTeam, bestPlayer, topScorer, topAssister, updatedAt: new Date() }
+        data: { winnerTeam, leastConcededTeam, mostConcededTeam, topScorer, topAssister, updatedAt: new Date() }
       });
     } else {
       await prisma.extraPrediction.create({
-        data: { userId, winnerTeam, bestPlayer, topScorer, topAssister, updatedAt: new Date() }
+        data: { userId, winnerTeam, leastConcededTeam, mostConcededTeam, topScorer, topAssister, updatedAt: new Date() }
       });
     }
 
