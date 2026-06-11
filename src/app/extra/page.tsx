@@ -22,7 +22,8 @@ export default function ExtraPredictionsPage() {
   const [allPredictions, setAllPredictions] = useState<any[]>([]);
 
   const teams = [...turkishTeams].sort();
-  const LOCK_TIME = new Date("2026-06-11T19:00:00Z");
+  // Locked early at 18:50 UTC (21:50 TR) as requested by user
+  const LOCK_TIME = new Date("2026-06-11T18:50:00Z");
   const isAdmin = session?.user?.name === "ADMIN" || (session?.user as any)?.role === "ADMIN";
 
   useEffect(() => {

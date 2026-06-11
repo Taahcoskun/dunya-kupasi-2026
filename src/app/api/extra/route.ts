@@ -6,7 +6,8 @@ import { authOptions } from "@/lib/auth";
 export const dynamic = 'force-dynamic';
 
 // First match kickoff: June 11, 2026, 22:00 TR (19:00 UTC)
-const LOCK_TIME = new Date("2026-06-11T19:00:00Z");
+// Locked early at 18:50 UTC (21:50 TR) as requested by user
+const LOCK_TIME = new Date("2026-06-11T18:50:00Z");
 
 export async function GET(req: Request) {
   const session = await getServerSession(authOptions);
