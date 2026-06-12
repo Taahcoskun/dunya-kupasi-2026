@@ -158,10 +158,10 @@ export default function LivePredictionsPage() {
               return (
                 <div
                   key={match.id}
-                  className="glass-dark rounded-[2.5rem] p-1 border border-white/5 overflow-hidden shadow-2xl fade-in-up"
+                  className="glass-dark rounded-[1.8rem] md:rounded-[2.5rem] p-1 border border-white/5 overflow-hidden shadow-2xl fade-in-up"
                   style={{ animationDelay: `${idx * 0.1}s` }}
                 >
-                  <div className="bg-gray-900/50 rounded-[2.3rem] p-6 md:p-8">
+                  <div className="bg-gray-900/50 rounded-[1.6rem] md:rounded-[2.3rem] p-4 md:p-8">
                     {/* Match Card Header */}
                     <div className="flex flex-col md:flex-row justify-between items-center mb-6 md:mb-8 gap-4 border-b border-white/5 pb-6">
                       <div className="flex items-center gap-2 text-xs font-bold text-gray-500 uppercase tracking-widest">
@@ -197,26 +197,26 @@ export default function LivePredictionsPage() {
                     </div>
 
                     {/* Match Teams & Score Row */}
-                    <div className="flex justify-between items-center px-4 md:px-12 mb-8 gap-4">
+                    <div className="flex justify-between items-center px-2 md:px-12 mb-8 gap-2 md:gap-4">
                       {/* Home */}
-                      <div className="flex items-center gap-3 w-1/3 justify-end">
-                        <span className="font-bold text-sm md:text-lg text-white text-right truncate">
-                          {match.teamHome}
-                        </span>
-                        <div className="relative shrink-0 w-10 h-10 md:w-14 md:h-14 bg-gray-800 rounded-full p-0.5 border border-white/10 overflow-hidden shadow-lg">
+                      <div className="flex flex-col items-center w-1/3 gap-2">
+                        <div className="relative shrink-0 w-12 h-12 md:w-16 md:h-16 bg-gray-800 rounded-full p-0.5 border border-white/10 overflow-hidden shadow-lg">
                           <img
                             src={getFlagUrl(match.teamHome)}
                             alt={match.teamHome}
                             className="w-full h-full object-cover rounded-full"
                           />
                         </div>
+                        <span className="font-bold text-[11px] md:text-base text-white text-center line-clamp-2 leading-tight">
+                          {match.teamHome}
+                        </span>
                       </div>
 
                       {/* Score display */}
-                      <div className="text-center w-1/3">
+                      <div className="text-center w-1/3 flex flex-col justify-center items-center">
                         <div className="text-2xl md:text-4xl font-black tabular-nums tracking-tighter text-white">
                           {match.homeScore !== null && match.awayScore !== null ? (
-                            <div className="flex items-center justify-center gap-2 md:gap-3">
+                            <div className="flex items-center justify-center gap-1 md:gap-3">
                               <span className={match.homeScore > match.awayScore ? "text-blue-400" : ""}>
                                 {match.homeScore}
                               </span>
@@ -226,7 +226,7 @@ export default function LivePredictionsPage() {
                               </span>
                             </div>
                           ) : (
-                            <span className="text-gray-700 text-lg uppercase tracking-widest font-black">
+                            <span className="text-gray-700 text-sm md:text-lg uppercase tracking-widest font-black">
                               VS
                             </span>
                           )}
@@ -234,15 +234,15 @@ export default function LivePredictionsPage() {
                       </div>
 
                       {/* Away */}
-                      <div className="flex items-center gap-3 w-1/3 justify-start">
-                        <div className="relative shrink-0 w-10 h-10 md:w-14 md:h-14 bg-gray-800 rounded-full p-0.5 border border-white/10 overflow-hidden shadow-lg">
+                      <div className="flex flex-col items-center w-1/3 gap-2">
+                        <div className="relative shrink-0 w-12 h-12 md:w-16 md:h-16 bg-gray-800 rounded-full p-0.5 border border-white/10 overflow-hidden shadow-lg">
                           <img
                             src={getFlagUrl(match.teamAway)}
                             alt={match.teamAway}
                             className="w-full h-full object-cover rounded-full"
                           />
                         </div>
-                        <span className="font-bold text-sm md:text-lg text-white text-left truncate">
+                        <span className="font-bold text-[11px] md:text-base text-white text-center line-clamp-2 leading-tight">
                           {match.teamAway}
                         </span>
                       </div>
@@ -254,9 +254,9 @@ export default function LivePredictionsPage() {
                         <table className="w-full text-left">
                           <thead>
                             <tr className="bg-white/5 text-gray-500 text-[9px] md:text-[10px] font-black uppercase tracking-widest border-b border-white/5">
-                              <th className="px-6 py-4">Kullanıcı</th>
-                              <th className="px-6 py-4 text-center">Tahmin</th>
-                              <th className="px-6 py-4 text-center">Durum / Kazanılan Puan</th>
+                              <th className="px-3 py-3 md:px-6 py-4">Kullanıcı</th>
+                              <th className="px-3 py-3 md:px-6 py-4 text-center">Tahmin</th>
+                              <th className="px-3 py-3 md:px-6 py-4 text-center">Durum / Kazanılan Puan</th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-white/5">
@@ -271,34 +271,38 @@ export default function LivePredictionsPage() {
                                       isUserPrediction ? "bg-blue-600/5 font-semibold" : ""
                                     }`}
                                   >
-                                    <td className="px-6 py-4 text-white text-sm md:text-base flex items-center gap-2">
-                                      <span className="truncate">{pred.username}</span>
-                                      {isUserPrediction && (
-                                        <span className="bg-blue-500/20 text-blue-400 text-[8px] font-black px-2 py-0.5 rounded-full border border-blue-500/30 uppercase tracking-widest">
-                                          Sen
-                                        </span>
-                                      )}
+                                    <td className="px-3 py-3 md:px-6 md:py-4 text-white text-xs md:text-base">
+                                      <div className="flex items-center gap-1.5 min-w-0">
+                                        <span className="truncate block max-w-[80px] sm:max-w-none">{pred.username}</span>
+                                        {isUserPrediction && (
+                                          <span className="bg-blue-500/20 text-blue-400 text-[8px] font-black px-1.5 py-0.5 rounded-full border border-blue-500/30 uppercase tracking-widest shrink-0">
+                                            Sen
+                                          </span>
+                                        )}
+                                      </div>
                                     </td>
-                                    <td className="px-6 py-4 text-center font-black text-blue-400 text-sm md:text-base whitespace-nowrap">
+                                    <td className="px-3 py-3 md:px-6 md:py-4 text-center font-black text-blue-400 text-xs md:text-base whitespace-nowrap">
                                       {pred.predictedHomeScore} - {pred.predictedAwayScore}
                                     </td>
-                                    <td className="px-6 py-4 text-center">
+                                    <td className="px-3 py-3 md:px-6 md:py-4 text-center">
                                       {pred.pointsAwarded !== null ? (
                                         pred.pointsAwarded === 4 ? (
-                                          <span className="px-3 py-1 rounded-full text-[10px] font-black bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 shadow-[0_0_10px_rgba(234,179,8,0.15)] uppercase tracking-wider">
-                                            +4 Puan (Tam Skor)
+                                          <span className="px-2 md:px-3 py-1 rounded-full text-[9px] md:text-[10px] font-black bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 shadow-[0_0_10px_rgba(234,179,8,0.15)] uppercase tracking-wider whitespace-nowrap">
+                                            <span className="hidden sm:inline">+4 Puan (Tam Skor)</span>
+                                            <span className="inline sm:hidden">+4 Puan (Tam)</span>
                                           </span>
                                         ) : pred.pointsAwarded > 0 ? (
-                                          <span className="px-3 py-1 rounded-full text-[10px] font-black bg-blue-500/10 text-blue-400 border border-blue-500/20 uppercase tracking-wider">
-                                            +{pred.pointsAwarded} Puan (Sonuç)
+                                          <span className="px-2 md:px-3 py-1 rounded-full text-[9px] md:text-[10px] font-black bg-blue-500/10 text-blue-400 border border-blue-500/20 uppercase tracking-wider whitespace-nowrap">
+                                            <span className="hidden sm:inline">+{pred.pointsAwarded} Puan (Sonuç)</span>
+                                            <span className="inline sm:hidden">+{pred.pointsAwarded} Puan</span>
                                           </span>
                                         ) : (
-                                          <span className="px-3 py-1 rounded-full text-[10px] font-black bg-white/5 text-gray-500 border border-white/5 uppercase tracking-wider">
+                                          <span className="px-2 md:px-3 py-1 rounded-full text-[9px] md:text-[10px] font-black bg-white/5 text-gray-500 border border-white/5 uppercase tracking-wider whitespace-nowrap">
                                             0 Puan
                                           </span>
                                         )
                                       ) : (
-                                        <span className="px-3 py-1 rounded-full text-[10px] font-black bg-white/5 text-gray-400 border border-white/5 uppercase tracking-wider animate-pulse">
+                                        <span className="px-2 md:px-3 py-1 rounded-full text-[9px] md:text-[10px] font-black bg-white/5 text-gray-400 border border-white/5 uppercase tracking-wider whitespace-nowrap animate-pulse">
                                           Bekleniyor
                                         </span>
                                       )}
@@ -310,7 +314,7 @@ export default function LivePredictionsPage() {
                               <tr>
                                 <td
                                   colSpan={3}
-                                  className="px-6 py-8 text-center text-gray-500 font-bold italic text-sm"
+                                  className="px-3 py-6 md:px-6 md:py-8 text-center text-gray-500 font-bold italic text-xs md:text-sm"
                                 >
                                   Bu maç için hiç tahmin yapılmamış.
                                 </td>
