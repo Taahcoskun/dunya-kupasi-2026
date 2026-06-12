@@ -36,6 +36,10 @@ export default function Navbar() {
             <LayoutDashboard className={`w-4 h-4 md:w-4 md:h-4 ${pathname === "/leaderboard" ? "text-blue-400" : ""}`} />
             <span className="hidden md:inline">Liderlik</span>
           </Link>
+          <Link href="/predictions" className={`flex items-center gap-1.5 md:gap-2 px-2 md:px-4 py-1.5 md:py-2 rounded-xl transition-all duration-300 ${pathname === "/predictions" ? "bg-blue-600/20 text-blue-400 font-bold border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.15)]" : "text-gray-400 hover:text-white hover:bg-white/5 font-medium border border-transparent"}`}>
+            <Users className={`w-4 h-4 md:w-4 md:h-4 ${pathname === "/predictions" ? "text-blue-400" : ""}`} />
+            <span className="hidden md:inline">Tahminler</span>
+          </Link>
           <Link href="/extra" className={`flex items-center gap-1.5 md:gap-2 px-2 md:px-4 py-1.5 md:py-2 rounded-xl transition-all duration-300 ${pathname === "/extra" ? "bg-purple-500/20 text-purple-400 font-bold border border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.15)]" : "text-gray-400 hover:text-white hover:bg-white/5 font-medium border border-transparent"}`}>
             <Star className={`w-4 h-4 md:w-4 md:h-4 ${pathname === "/extra" ? "text-purple-400 fill-purple-400" : "text-purple-400/70"}`} />
             <span className="hidden lg:inline">Ekstra</span>
