@@ -11,6 +11,7 @@ type UserType = {
   week2Points: number;
   week3Points: number;
   exactHits: number;
+  onePoints: number;
   totalPlayed: number;
 };
 
@@ -70,8 +71,10 @@ export default function LeaderboardPage() {
                       <span className="sm:hidden">Tah</span>
                     </th>
                     <th className="px-1.5 py-3 md:p-6 text-gray-400 font-bold uppercase text-[9px] md:text-xs tracking-wider md:tracking-widest text-center whitespace-nowrap">
-                      <span className="hidden sm:inline">Birebir</span>
-                      <span className="sm:hidden">Bir</span>
+                      4P
+                    </th>
+                    <th className="px-1.5 py-3 md:p-6 text-gray-400 font-bold uppercase text-[9px] md:text-xs tracking-wider md:tracking-widest text-center whitespace-nowrap">
+                      1P
                     </th>
                     <th className="px-1.5 py-3 md:p-6 text-gray-400 font-bold uppercase text-[9px] md:text-xs tracking-wider md:tracking-widest text-center whitespace-nowrap">
                       <span className="hidden sm:inline">1. Hafta</span>
@@ -142,6 +145,13 @@ export default function LeaderboardPage() {
                         </div>
                       </td>
                       <td className="px-1.5 py-3 md:p-6 text-center">
+                        <div className="inline-flex items-center justify-center bg-blue-500/10 px-1.5 md:px-3 py-0.5 md:py-1 rounded-md border border-blue-500/20">
+                          <span className="font-bold text-blue-400 tabular-nums text-[10px] md:text-sm">
+                            {user.onePoints}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-1.5 py-3 md:p-6 text-center">
                         <span className="font-semibold text-gray-300 tabular-nums text-xs md:text-base">
                           {user.week1Points}
                         </span>
@@ -165,7 +175,7 @@ export default function LeaderboardPage() {
                   ))}
                   {users.length === 0 && (
                     <tr>
-                      <td colSpan={8} className="p-12 md:p-24 text-center text-gray-500">
+                      <td colSpan={9} className="p-12 md:p-24 text-center text-gray-500">
                         <User className="w-8 h-8 md:w-12 md:h-12 mx-auto mb-4 opacity-20" />
                         <p className="text-sm md:text-lg font-medium">Henüz tahminci bulunmuyor.</p>
                       </td>

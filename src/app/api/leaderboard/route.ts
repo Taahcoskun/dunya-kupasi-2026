@@ -40,6 +40,7 @@ export async function GET(req: Request) {
       let week2Points = 0;
       let week3Points = 0;
       let exactHits = 0;
+      let onePoints = 0;
       let totalPlayed = 0;
 
       user.predictions.forEach(p => {
@@ -47,6 +48,8 @@ export async function GET(req: Request) {
           totalPlayed++;
           if (p.pointsAwarded === 4) {
             exactHits++;
+          } else if (p.pointsAwarded === 1) {
+            onePoints++;
           }
           
           const kickoff = new Date(p.match.kickoffTime).getTime();
@@ -68,6 +71,7 @@ export async function GET(req: Request) {
         week2Points,
         week3Points,
         exactHits,
+        onePoints,
         totalPlayed
       };
     });
