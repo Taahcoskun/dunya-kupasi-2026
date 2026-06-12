@@ -142,7 +142,7 @@ export default function LivePredictionsPage() {
               <Trophy className="w-16 h-16 text-gray-700 mx-auto mb-4 opacity-50" />
               <h3 className="text-xl font-bold text-white mb-2">Henüz Başlayan Maç Yok</h3>
               <p className="text-gray-500 max-w-sm mx-auto text-sm">
-                Tahminlerin paylaşılması için en az bir maçın başlama saatine 10 dakikadan az kalmış veya oynanmış olması gerekmektedir.
+                Tahminlerin paylaşılması için en az bir maçın başlama saatinin gelmiş veya geçmiş olması gerekmektedir.
               </p>
             </div>
           ) : (

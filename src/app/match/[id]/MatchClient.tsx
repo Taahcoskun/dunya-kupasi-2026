@@ -82,7 +82,7 @@ export default function MatchClient({
   }, [match.id, isAdmin]);
 
   const diffMins = (kickoff.getTime() - now.getTime()) / 1000 / 60;
-  const isLocked = diffMins < 10;
+  const isLocked = now >= kickoff;
 
   const handlePredict = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -456,7 +456,10 @@ export default function MatchClient({
                     <div className="flex items-center gap-2 mt-8 text-gray-500">
                       <Timer className="w-4 h-4" />
                       <p className="text-[10px] md:text-xs font-bold uppercase tracking-widest">
-                        {Math.floor(diffMins - 10)} dakika içinde kapanacak
+                        {diffMins > 60 
+                          ? `Maçın başlamasına ${Math.floor(diffMins / 60)} saat ${Math.floor(diffMins % 60)} dakika kaldı` 
+                          : `Maçın başlamasına ${Math.max(1, Math.floor(diffMins))} dakika kaldı`
+                        }
                       </p>
                     </div>
                   )}

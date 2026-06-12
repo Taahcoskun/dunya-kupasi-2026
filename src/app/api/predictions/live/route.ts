@@ -19,12 +19,10 @@ export async function GET(req: Request) {
       orderBy: { kickoffTime: "asc" }
     });
 
-    // Filter matches that are locked (diff to kickoff is less than 10 mins)
+    // Filter matches that are locked (match has started)
     const lockedMatches = matches.filter(match => {
       const kickoff = new Date(match.kickoffTime);
-      const diffMs = kickoff.getTime() - now.getTime();
-      const diffMins = diffMs / 1000 / 60;
-      return diffMins < 10;
+      return now >= kickoff;
     });
 
     const lockedMatchIds = lockedMatches.map(m => m.id);

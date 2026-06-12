@@ -22,14 +22,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Match not found" }, { status: 404 });
     }
 
-    // Check lock rule: prediction locked if current time is within 10 mins of kickoff or past kickoff
+    // Check lock rule: prediction locked if current time is past kickoff (match started)
     const now = new Date();
     const kickoff = new Date(match.kickoffTime);
-    const diffMs = kickoff.getTime() - now.getTime();
-    const diffMins = diffMs / 1000 / 60;
 
-    if (diffMins < 10) {
-      return NextResponse.json({ error: "Predictions are locked for this match (less than 10 mins to kickoff)" }, { status: 403 });
+    if (now >= kickoff) {
+      return NextResponse.json({ error: "Predictions are locked for this match (match has started)" }, { status: 403 });
     }
 
     // Upsert prediction
