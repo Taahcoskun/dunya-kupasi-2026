@@ -42,7 +42,7 @@ export default function Home() {
   const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const todayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
 
-  const [activeTab, setActiveTab] = useState<"TODAY" | "WEEK1" | "WEEK2" | "WEEK3" | "ALL">("ALL");
+  const [activeTab, setActiveTab] = useState<"TODAY" | "WEEK1" | "WEEK2" | "WEEK3" | "ALL">("TODAY");
   const filteredByTab = matches.filter(m => {
     if (activeTab === "TODAY") {
       const d = new Date(m.kickoffTime);
