@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getPointsBreakdown } from "@/lib/points";
 
 export const dynamic = 'force-dynamic';
 
@@ -22,9 +23,19 @@ export async function GET(req: Request) {
         predictions: {
           select: {
             pointsAwarded: true,
+            predictedHomeScore: true,
+            predictedAwayScore: true,
+            predictedHomeExtraScore: true,
+            predictedAwayExtraScore: true,
+            penaltyWinner: true,
             match: {
               select: {
-                kickoffTime: true
+                kickoffTime: true,
+                homeScore: true,
+                awayScore: true,
+                homeExtraScore: true,
+                awayExtraScore: true,
+                penaltyWinner: true,
               }
             }
           }
@@ -36,23 +47,27 @@ export async function GET(req: Request) {
     const week2End = new Date("2026-06-24T12:00:00Z").getTime();
     const week3End = new Date("2026-06-28T10:00:00Z").getTime();
 
-    const users = usersData.map(user => {
+    let users = usersData.map(user => {
       let week1Points = 0;
       let week2Points = 0;
       let week3Points = 0;
       let round32Points = 0;
       let exactHits = 0;
       let onePoints = 0;
+      let extraAveraj = 0;
       let totalPlayed = 0;
 
       user.predictions.forEach(p => {
         if (p.pointsAwarded !== null && p.pointsAwarded !== undefined) {
           totalPlayed++;
-          if (p.pointsAwarded === 4) {
+          
+          const bd = getPointsBreakdown(p.match, p as any);
+          if (bd.score90Mins === 4) {
             exactHits++;
-          } else if (p.pointsAwarded === 1) {
+          } else if (bd.score90Mins === 1) {
             onePoints++;
           }
+          extraAveraj += bd.extraTimeGo + bd.extraTimeOutcome + bd.penaltyGo + bd.penaltyWinner;
           
           const kickoff = new Date(p.match.kickoffTime).getTime();
           if (kickoff < week1End) {
@@ -77,8 +92,17 @@ export async function GET(req: Request) {
         round32Points,
         exactHits,
         onePoints,
+        extraAveraj,
         totalPlayed
       };
+    });
+
+    // Averaj System: Sort by totalPoints -> exactHits (4P) -> onePoints (1P) -> extraAveraj (32A)
+    users.sort((a, b) => {
+      if (b.totalPoints !== a.totalPoints) return b.totalPoints - a.totalPoints;
+      if (b.exactHits !== a.exactHits) return b.exactHits - a.exactHits;
+      if (b.onePoints !== a.onePoints) return b.onePoints - a.onePoints;
+      return b.extraAveraj - a.extraAveraj;
     });
 
     return NextResponse.json(users);

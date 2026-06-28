@@ -13,6 +13,7 @@ type UserType = {
   round32Points: number;
   exactHits: number;
   onePoints: number;
+  extraAveraj: number;
   totalPlayed: number;
 };
 
@@ -76,6 +77,9 @@ export default function LeaderboardPage() {
                     </th>
                     <th className="px-1.5 py-3 md:p-6 text-gray-400 font-bold uppercase text-[9px] md:text-xs tracking-wider md:tracking-widest text-center whitespace-nowrap">
                       1P
+                    </th>
+                    <th className="px-1.5 py-3 md:p-6 text-gray-400 font-bold uppercase text-[9px] md:text-xs tracking-wider md:tracking-widest text-center whitespace-nowrap" title="Son 32 Averajı (Uzatma ve Penaltı Ekstra Puanları Toplamı)">
+                      32A
                     </th>
                     <th className="px-1.5 py-3 md:p-6 text-gray-400 font-bold uppercase text-[9px] md:text-xs tracking-wider md:tracking-widest text-center whitespace-nowrap">
                       <span className="hidden sm:inline">1. Hafta</span>
@@ -153,6 +157,13 @@ export default function LeaderboardPage() {
                         <div className="inline-flex items-center justify-center bg-blue-500/10 px-1.5 md:px-3 py-0.5 md:py-1 rounded-md border border-blue-500/20">
                           <span className="font-bold text-blue-400 tabular-nums text-[10px] md:text-sm">
                             {user.onePoints}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-1.5 py-3 md:p-6 text-center">
+                        <div className="inline-flex items-center justify-center bg-purple-500/10 px-1.5 md:px-3 py-0.5 md:py-1 rounded-md border border-purple-500/20">
+                          <span className="font-bold text-purple-400 tabular-nums text-[10px] md:text-sm">
+                            {user.extraAveraj > 0 ? `+${user.extraAveraj}` : user.extraAveraj}
                           </span>
                         </div>
                       </td>
