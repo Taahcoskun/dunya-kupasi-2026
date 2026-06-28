@@ -43,10 +43,9 @@ export function getPointsBreakdown(
     const isKnockout = new Date(match.kickoffTime) >= new Date("2026-06-28T10:00:00Z");
 
     if (actualOutcome === predOutcome) {
+      score90Mins = 1; // outcome correct (taraf bilme 1 puan)
       if (actualHome === predHome && actualAway === predAway) {
-        score90Mins = 3; // exact score (skor bilme 3 puan)
-      } else {
-        score90Mins = 1; // outcome correct (taraf bilme 1 puan)
+        score90Mins += 3; // exact score (+3 ekstra puan = toplam 4)
       }
     }
 
