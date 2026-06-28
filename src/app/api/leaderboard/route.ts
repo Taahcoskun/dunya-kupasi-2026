@@ -54,7 +54,6 @@ export async function GET(req: Request) {
       let round32Points = 0;
       let exactHits = 0;
       let onePoints = 0;
-      let extraAveraj = 0;
       let totalPlayed = 0;
 
       user.predictions.forEach(p => {
@@ -67,7 +66,6 @@ export async function GET(req: Request) {
           } else if (bd.score90Mins === 1) {
             onePoints++;
           }
-          extraAveraj += bd.extraTimeGo + bd.extraTimeOutcome + bd.penaltyGo + bd.penaltyWinner;
           
           const kickoff = new Date(p.match.kickoffTime).getTime();
           if (kickoff < week1End) {
@@ -92,17 +90,15 @@ export async function GET(req: Request) {
         round32Points,
         exactHits,
         onePoints,
-        extraAveraj,
         totalPlayed
       };
     });
 
-    // Averaj System: Sort by totalPoints -> exactHits (4P) -> onePoints (1P) -> extraAveraj (32A)
+    // Averaj System: Sort by totalPoints -> exactHits (4P) -> onePoints (1P)
     users.sort((a, b) => {
       if (b.totalPoints !== a.totalPoints) return b.totalPoints - a.totalPoints;
       if (b.exactHits !== a.exactHits) return b.exactHits - a.exactHits;
-      if (b.onePoints !== a.onePoints) return b.onePoints - a.onePoints;
-      return b.extraAveraj - a.extraAveraj;
+      return b.onePoints - a.onePoints;
     });
 
     return NextResponse.json(users);
