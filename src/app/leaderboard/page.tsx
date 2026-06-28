@@ -7,9 +7,7 @@ type UserType = {
   id: string;
   username: string;
   totalPoints: number;
-  week1Points: number;
-  week2Points: number;
-  week3Points: number;
+  groupPoints: number;
   round32Points: number;
   exactHits: number;
   onePoints: number;
@@ -78,16 +76,7 @@ export default function LeaderboardPage() {
                       1P
                     </th>
                     <th className="px-1.5 py-3 md:p-6 text-gray-400 font-bold uppercase text-[9px] md:text-xs tracking-wider md:tracking-widest text-center whitespace-nowrap">
-                      <span className="hidden sm:inline">1. Hafta</span>
-                      <span className="sm:hidden">1.H</span>
-                    </th>
-                    <th className="px-1.5 py-3 md:p-6 text-gray-400 font-bold uppercase text-[9px] md:text-xs tracking-wider md:tracking-widest text-center whitespace-nowrap">
-                      <span className="hidden sm:inline">2. Hafta</span>
-                      <span className="sm:hidden">2.H</span>
-                    </th>
-                    <th className="px-1.5 py-3 md:p-6 text-gray-400 font-bold uppercase text-[9px] md:text-xs tracking-wider md:tracking-widest text-center whitespace-nowrap">
-                      <span className="hidden sm:inline">3. Hafta</span>
-                      <span className="sm:hidden">3.H</span>
+                      Grup
                     </th>
                     <th className="px-1.5 py-3 md:p-6 text-gray-400 font-bold uppercase text-[9px] md:text-xs tracking-wider md:tracking-widest text-center whitespace-nowrap">
                       <span className="hidden sm:inline">Son 32</span>
@@ -158,17 +147,7 @@ export default function LeaderboardPage() {
                       </td>
                       <td className="px-1.5 py-3 md:p-6 text-center">
                         <span className="font-semibold text-gray-300 tabular-nums text-xs md:text-base">
-                          {user.week1Points}
-                        </span>
-                      </td>
-                      <td className="px-1.5 py-3 md:p-6 text-center">
-                        <span className="font-semibold text-gray-300 tabular-nums text-xs md:text-base">
-                          {user.week2Points}
-                        </span>
-                      </td>
-                      <td className="px-1.5 py-3 md:p-6 text-center">
-                        <span className="font-semibold text-gray-300 tabular-nums text-xs md:text-base">
-                          {user.week3Points}
+                          {user.groupPoints}
                         </span>
                       </td>
                       <td className="px-1.5 py-3 md:p-6 text-center">

@@ -43,14 +43,10 @@ export async function GET(req: Request) {
       },
     });
 
-    const week1End = new Date("2026-06-18T12:00:00Z").getTime();
-    const week2End = new Date("2026-06-24T12:00:00Z").getTime();
     const week3End = new Date("2026-06-28T10:00:00Z").getTime();
 
     let users = usersData.map(user => {
-      let week1Points = 0;
-      let week2Points = 0;
-      let week3Points = 0;
+      let groupPoints = 0;
       let round32Points = 0;
       let exactHits = 0;
       let onePoints = 0;
@@ -68,12 +64,8 @@ export async function GET(req: Request) {
           }
           
           const kickoff = new Date(p.match.kickoffTime).getTime();
-          if (kickoff < week1End) {
-            week1Points += p.pointsAwarded;
-          } else if (kickoff < week2End) {
-            week2Points += p.pointsAwarded;
-          } else if (kickoff < week3End) {
-            week3Points += p.pointsAwarded;
+          if (kickoff < week3End) {
+            groupPoints += p.pointsAwarded;
           } else {
             round32Points += p.pointsAwarded;
           }
@@ -84,9 +76,7 @@ export async function GET(req: Request) {
         id: user.id,
         username: user.username,
         totalPoints: user.totalPoints,
-        week1Points,
-        week2Points,
-        week3Points,
+        groupPoints,
         round32Points,
         exactHits,
         onePoints,
