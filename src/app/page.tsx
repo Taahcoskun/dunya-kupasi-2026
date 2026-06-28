@@ -42,7 +42,7 @@ export default function Home() {
   const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const todayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
 
-  const [activeTab, setActiveTab] = useState<"TODAY" | "WEEK1" | "WEEK2" | "WEEK3" | "ROUND32" | "ALL">("TODAY");
+  const [activeTab, setActiveTab] = useState<"TODAY" | "WEEK1" | "WEEK2" | "WEEK3" | "ROUND32" | "ALL">("ROUND32");
   const filteredByTab = matches.filter(m => {
     if (activeTab === "TODAY") {
       const d = new Date(m.kickoffTime);
@@ -106,10 +106,10 @@ export default function Home() {
           <div className="flex gap-2 md:gap-4 p-1.5 bg-black/40 rounded-2xl border border-white/5 overflow-x-auto w-full md:w-auto scrollbar-hide backdrop-blur-md">
             {[
               { id: "TODAY", label: "BUGÜN" },
+              { id: "ROUND32", label: "SON 32" },
               { id: "WEEK1", label: "1. HAFTA" },
               { id: "WEEK2", label: "2. HAFTA" },
               { id: "WEEK3", label: "3. HAFTA" },
-              { id: "ROUND32", label: "SON 32" },
               { id: "ALL", label: "TÜMÜ" }
             ].map((tab) => (
               <button
