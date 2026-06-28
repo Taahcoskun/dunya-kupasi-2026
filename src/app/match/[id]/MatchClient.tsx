@@ -6,6 +6,7 @@ import { getFlagUrl } from "@/lib/teams";
 import { updateMatchScoreAction, resetMatchAction } from "@/app/actions/matchActions";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, Lock, Save, Trophy, AlertCircle, Timer, Zap } from "lucide-react";
+import { getPointsBreakdown } from "@/lib/points";
 
 type Match = {
   id: string;
@@ -674,13 +675,33 @@ export default function MatchClient({
                           )}
                         </td>
                         <td className="px-4 md:px-6 py-4 text-center">
-                          {p.pointsAwarded !== null ? (
-                            <span className={`px-2 md:px-3 py-1 rounded-full text-[10px] md:text-xs font-black ${p.pointsAwarded > 0 ? 'bg-blue-500/10 text-blue-400' : 'bg-gray-500/10 text-gray-500'}`}>
-                              {p.pointsAwarded > 0 ? `+${p.pointsAwarded}` : '0'}
-                            </span>
-                          ) : (
-                            <span className="text-gray-600 text-xs">-</span>
-                          )}
+                          {(() => {
+                            const bd = getPointsBreakdown(match, p);
+                            if (p.pointsAwarded === null) return <span className="text-gray-600 text-xs">-</span>;
+                            
+                            return (
+                              <div className="flex flex-col items-center gap-0.5">
+                                <span className={`px-2 md:px-3 py-1 rounded-full text-[10px] md:text-xs font-black ${p.pointsAwarded > 0 ? 'bg-blue-500/10 text-blue-400' : p.pointsAwarded < 0 ? 'bg-red-500/10 text-red-400' : 'bg-gray-500/10 text-gray-500'}`}>
+                                  {p.pointsAwarded > 0 ? `+${p.pointsAwarded}` : p.pointsAwarded}
+                                </span>
+                                {isKnockout && (
+                                  <div className="text-[9px] text-gray-500 font-bold whitespace-nowrap mt-1">
+                                    90dk: {bd.score90Mins >= 0 ? `+${bd.score90Mins}` : bd.score90Mins}p
+                                    {p.predictedHomeScore === p.predictedAwayScore && (
+                                      <>
+                                        {" | Uz: "}{bd.extraTimeGo + bd.extraTimeOutcome >= 0 ? `+${bd.extraTimeGo + bd.extraTimeOutcome}` : bd.extraTimeGo + bd.extraTimeOutcome}p
+                                        {p.predictedHomeExtraScore === p.predictedAwayExtraScore && (
+                                          <>
+                                            {" | Pen: "}{bd.penaltyGo + bd.penaltyWinner >= 0 ? `+${bd.penaltyGo + bd.penaltyWinner}` : bd.penaltyGo + bd.penaltyWinner}p
+                                          </>
+                                        )}
+                                      </>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })()}
                         </td>
                       </tr>
                     ))}
