@@ -25,6 +25,9 @@ model Match {
   kickoffTime DateTime
   homeScore   Int?
   awayScore   Int?
+  homeExtraScore Int?
+  awayExtraScore Int?
+  penaltyWinner  String?
   status      String       @default("SCHEDULED") // SCHEDULED, LIVE, FINISHED
   updatedAt   DateTime     @updatedAt
   predictions Prediction[]
@@ -36,6 +39,9 @@ model Prediction {
   matchId            String
   predictedHomeScore Int
   predictedAwayScore Int
+  predictedHomeExtraScore Int?
+  predictedAwayExtraScore Int?
+  penaltyWinner      String?
   pointsAwarded      Int?
   locked             Boolean  @default(false)
   createdAt          DateTime @default(now())

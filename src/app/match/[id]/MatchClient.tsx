@@ -14,12 +14,18 @@ type Match = {
   kickoffTime: Date;
   homeScore: number | null;
   awayScore: number | null;
+  homeExtraScore: number | null;
+  awayExtraScore: number | null;
+  penaltyWinner: string | null;
   status: string;
 };
 
 type Prediction = {
   predictedHomeScore: number;
   predictedAwayScore: number;
+  predictedHomeExtraScore: number | null;
+  predictedAwayExtraScore: number | null;
+  penaltyWinner: string | null;
   pointsAwarded: number | null;
 };
 
@@ -42,6 +48,9 @@ export default function MatchClient({
   
   const [predHome, setPredHome] = useState(initialPrediction?.predictedHomeScore ?? 0);
   const [predAway, setPredAway] = useState(initialPrediction?.predictedAwayScore ?? 0);
+  const [predHomeExtra, setPredHomeExtra] = useState(initialPrediction?.predictedHomeExtraScore ?? 0);
+  const [predAwayExtra, setPredAwayExtra] = useState(initialPrediction?.predictedAwayExtraScore ?? 0);
+  const [penaltyWinner, setPenaltyWinner] = useState<string | null>(initialPrediction?.penaltyWinner ?? null);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -83,6 +92,21 @@ export default function MatchClient({
 
   const diffMins = (kickoff.getTime() - now.getTime()) / 1000 / 60;
   const isLocked = now >= kickoff;
+  const isKnockout = kickoff >= new Date("2026-06-28T10:00:00Z");
+
+  useEffect(() => {
+    if (predHome !== predAway) {
+      setPredHomeExtra(0);
+      setPredAwayExtra(0);
+      setPenaltyWinner(null);
+    }
+  }, [predHome, predAway]);
+
+  useEffect(() => {
+    if (predHomeExtra !== predAwayExtra) {
+      setPenaltyWinner(null);
+    }
+  }, [predHomeExtra, predAwayExtra]);
 
   const handlePredict = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -102,7 +126,10 @@ export default function MatchClient({
       body: JSON.stringify({ 
         matchId: match.id, 
         predictedHomeScore: predHome, 
-        predictedAwayScore: predAway 
+        predictedAwayScore: predAway,
+        predictedHomeExtraScore: predHome === predAway ? predHomeExtra : null,
+        predictedAwayExtraScore: predHome === predAway ? predAwayExtra : null,
+        penaltyWinner: (predHome === predAway && predHomeExtra === predAwayExtra) ? penaltyWinner : null
       }),
     });
 
@@ -116,6 +143,9 @@ export default function MatchClient({
       setPrediction({
         predictedHomeScore: predHome,
         predictedAwayScore: predAway,
+        predictedHomeExtraScore: predHome === predAway ? predHomeExtra : null,
+        predictedAwayExtraScore: predHome === predAway ? predAwayExtra : null,
+        penaltyWinner: (predHome === predAway && predHomeExtra === predAwayExtra) ? penaltyWinner : null,
         pointsAwarded: null,
       });
       setTimeout(() => setMessage(""), 3000);
@@ -124,15 +154,35 @@ export default function MatchClient({
 
   const [adminHome, setAdminHome] = useState(initialMatch.homeScore ?? 0);
   const [adminAway, setAdminAway] = useState(initialMatch.awayScore ?? 0);
+  const [adminHomeExtra, setAdminHomeExtra] = useState(initialMatch.homeExtraScore ?? 0);
+  const [adminAwayExtra, setAdminAwayExtra] = useState(initialMatch.awayExtraScore ?? 0);
+  const [adminPenaltyWinner, setAdminPenaltyWinner] = useState<string | null>(initialMatch.penaltyWinner ?? null);
   const [adminStatus, setAdminStatus] = useState(initialMatch.status);
   const [adminError, setAdminError] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    if (adminHome !== adminAway) {
+      setAdminHomeExtra(0);
+      setAdminAwayExtra(0);
+      setAdminPenaltyWinner(null);
+    }
+  }, [adminHome, adminAway]);
+
+  useEffect(() => {
+    if (adminHomeExtra !== adminAwayExtra) {
+      setAdminPenaltyWinner(null);
+    }
+  }, [adminHomeExtra, adminAwayExtra]);
 
   // Sync state with server props when they update
   useEffect(() => {
     setMatch(initialMatch);
     setAdminHome(initialMatch.homeScore ?? 0);
     setAdminAway(initialMatch.awayScore ?? 0);
+    setAdminHomeExtra(initialMatch.homeExtraScore ?? 0);
+    setAdminAwayExtra(initialMatch.awayExtraScore ?? 0);
+    setAdminPenaltyWinner(initialMatch.penaltyWinner ?? null);
     setAdminStatus(initialMatch.status);
   }, [initialMatch]);
 
@@ -148,7 +198,10 @@ export default function MatchClient({
         adminAway,
         s,
         match.teamHome,
-        match.teamAway
+        match.teamAway,
+        adminHome === adminAway ? adminHomeExtra : null,
+        adminHome === adminAway ? adminAwayExtra : null,
+        (adminHome === adminAway && adminHomeExtra === adminAwayExtra) ? adminPenaltyWinner : null
       );
 
       if (res.success) {
@@ -269,14 +322,24 @@ export default function MatchClient({
 
             {/* User Prediction Info (Visible explicitly) */}
             {prediction && (
-              <div className="mt-8 pt-8 border-t border-white/5 flex flex-col items-center gap-4">
-                <div className="flex items-center gap-2 bg-blue-600/10 px-4 py-2 rounded-full border border-blue-500/20">
-                  <Trophy className="w-4 h-4 text-blue-400" />
-                  <span className="text-[10px] md:text-xs font-black text-blue-400 uppercase tracking-widest">Senin Tahminin: {prediction.predictedHomeScore} - {prediction.predictedAwayScore}</span>
+              <div className="flex flex-col items-center gap-1">
+                <div className="flex items-center gap-2 text-center flex-col">
+                  <span className="text-[10px] md:text-xs font-black text-blue-400 uppercase tracking-widest">
+                    Senin Tahminin: {prediction.predictedHomeScore} - {prediction.predictedAwayScore}
+                    {prediction.predictedHomeExtraScore !== null && prediction.predictedAwayExtraScore !== null && (
+                      <>
+                        {" | Uzatma: "}{prediction.predictedHomeExtraScore} - {prediction.predictedAwayExtraScore}
+                      </>
+                    )}
+                    {prediction.penaltyWinner && (
+                      <>
+                        {" | Penaltı: "}{prediction.penaltyWinner}
+                      </>
+                    )}
+                  </span>
                 </div>
                 {prediction.pointsAwarded !== null && (
-                  <div className="bg-green-500/10 px-6 py-2 rounded-2xl border border-green-500/20 flex flex-col items-center">
-                    <span className="text-[9px] font-black text-gray-500 uppercase tracking-widest mb-1">Kazanılan Puan</span>
+                  <div className="mt-1">
                     <span className="text-2xl font-black text-green-400">+{prediction.pointsAwarded} PUAN</span>
                   </div>
                 )}
@@ -323,6 +386,57 @@ export default function MatchClient({
                     />
                   </div>
                 </div>
+
+                {/* Admin Extra Time & Penalty Score */}
+                {isKnockout && adminHome === adminAway && (
+                  <div className="flex flex-col items-center w-full p-6 bg-red-500/5 border border-red-500/10 rounded-[2rem] fade-in-up">
+                    <span className="text-[10px] font-black text-red-400 mb-4 tracking-widest uppercase">Uzatma Süresi (Admin)</span>
+                    <div className="flex justify-center gap-4 items-center">
+                      <div className="flex flex-col items-center gap-1">
+                        <span className="text-[9px] font-bold text-gray-500">{match.teamHome}</span>
+                        <input 
+                          type="number" 
+                          value={adminHomeExtra}
+                          onChange={(e) => setAdminHomeExtra(parseInt(e.target.value) || 0)}
+                          className="w-12 h-12 text-center text-lg font-black bg-white/5 border border-white/10 rounded-xl focus:border-red-500 outline-none text-white"
+                        />
+                      </div>
+                      <span className="text-gray-700 mt-4">-</span>
+                      <div className="flex flex-col items-center gap-1">
+                        <span className="text-[9px] font-bold text-gray-500">{match.teamAway}</span>
+                        <input 
+                          type="number" 
+                          value={adminAwayExtra}
+                          onChange={(e) => setAdminAwayExtra(parseInt(e.target.value) || 0)}
+                          className="w-12 h-12 text-center text-lg font-black bg-white/5 border border-white/10 rounded-xl focus:border-red-500 outline-none text-white"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Admin Penalty Winner Selector */}
+                    {adminHomeExtra === adminAwayExtra && (
+                      <div className="flex flex-col items-center w-full mt-4 pt-4 border-t border-white/5 fade-in-up">
+                        <span className="text-[10px] font-black text-red-400 mb-3 tracking-widest uppercase">Penaltı Kazananı (Admin)</span>
+                        <div className="flex gap-3 justify-center w-full">
+                          {[match.teamHome, match.teamAway].map((team) => (
+                            <button
+                              key={team}
+                              type="button"
+                              onClick={() => setAdminPenaltyWinner(team)}
+                              className={`px-4 py-2 rounded-xl text-[10px] font-black transition-all ${
+                                adminPenaltyWinner === team
+                                  ? "bg-red-500 text-white shadow-lg"
+                                  : "bg-white/5 text-gray-500 border border-white/10 hover:text-white"
+                              }`}
+                            >
+                              {team}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 <div className="flex flex-col items-center gap-6">
                   <div className="flex justify-center gap-2 md:gap-3 flex-wrap">
@@ -429,6 +543,62 @@ export default function MatchClient({
                     </div>
                   </div>
 
+                  {/* Extra Time prediction */}
+                  {isKnockout && predHome === predAway && (
+                    <div className="flex flex-col items-center w-full mb-10 p-6 bg-white/5 border border-white/10 rounded-[2rem] fade-in-up">
+                      <h4 className="text-xs md:text-sm font-black text-blue-400 mb-4 tracking-widest uppercase">Uzatma Süresi Tahmini</h4>
+                      <div className="flex gap-4 md:gap-8 items-center justify-center">
+                        <div className="flex flex-col items-center gap-2">
+                          <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider">{match.teamHome}</span>
+                          <input 
+                            type="number" 
+                            min="0"
+                            value={predHomeExtra}
+                            onChange={(e) => setPredHomeExtra(parseInt(e.target.value) || 0)}
+                            disabled={isLocked}
+                            className="w-12 h-12 md:w-16 md:h-16 text-center text-xl md:text-2xl font-black bg-white/5 border border-white/10 rounded-xl focus:border-blue-500 focus:bg-white/10 outline-none disabled:opacity-30 transition-all text-white"
+                          />
+                        </div>
+                        <div className="h-0.5 w-3 bg-white/10 mt-6"></div>
+                        <div className="flex flex-col items-center gap-2">
+                          <span className="text-[9px] font-bold text-gray-500 uppercase tracking-wider">{match.teamAway}</span>
+                          <input 
+                            type="number" 
+                            min="0"
+                            value={predAwayExtra}
+                            onChange={(e) => setPredAwayExtra(parseInt(e.target.value) || 0)}
+                            disabled={isLocked}
+                            className="w-12 h-12 md:w-16 md:h-16 text-center text-xl md:text-2xl font-black bg-white/5 border border-white/10 rounded-xl focus:border-blue-500 focus:bg-white/10 outline-none disabled:opacity-30 transition-all text-white"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Penalty prediction */}
+                      {predHomeExtra === predAwayExtra && (
+                        <div className="flex flex-col items-center w-full mt-6 pt-6 border-t border-white/5 fade-in-up">
+                          <h4 className="text-[10px] font-black text-orange-400 mb-4 tracking-widest uppercase">Penaltı Kazananı Tahmini</h4>
+                          <div className="flex gap-4 justify-center w-full">
+                            {[match.teamHome, match.teamAway].map((team) => (
+                              <button
+                                key={team}
+                                type="button"
+                                disabled={isLocked}
+                                onClick={() => setPenaltyWinner(team)}
+                                className={`px-4 py-2.5 rounded-xl text-[10px] font-black transition-all ${
+                                  penaltyWinner === team
+                                    ? "bg-orange-500 text-white shadow-lg shadow-orange-500/20"
+                                    : "bg-white/5 text-gray-400 border border-white/10 hover:text-white"
+                                }`}
+                              >
+                                {team}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
                   {isLocked ? (
                     <div className="text-center w-full">
                       <div className="bg-white/5 border border-white/10 text-gray-400 px-8 py-4 rounded-2xl font-bold inline-flex items-center gap-3 mb-6">
@@ -491,7 +661,17 @@ export default function MatchClient({
                       <tr key={i} className="hover:bg-white/5 transition-colors">
                         <td className="px-4 md:px-6 py-4 font-bold text-white text-sm md:text-base truncate max-w-[100px] md:max-w-none">{p.user.username}</td>
                         <td className="px-4 md:px-6 py-4 text-center font-black text-blue-400 text-sm md:text-base whitespace-nowrap">
-                          {p.predictedHomeScore} - {p.predictedAwayScore}
+                          <div>{p.predictedHomeScore} - {p.predictedAwayScore}</div>
+                          {p.predictedHomeExtraScore !== null && p.predictedAwayExtraScore !== null && (
+                            <div className="text-[10px] text-gray-500 font-bold mt-0.5">
+                              Uzatma: {p.predictedHomeExtraScore} - {p.predictedAwayExtraScore}
+                            </div>
+                          )}
+                          {p.penaltyWinner && (
+                            <div className="text-[10px] text-orange-400 font-bold mt-0.5">
+                              Penaltı: {p.penaltyWinner}
+                            </div>
+                          )}
                         </td>
                         <td className="px-4 md:px-6 py-4 text-center">
                           {p.pointsAwarded !== null ? (

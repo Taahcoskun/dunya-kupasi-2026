@@ -5,7 +5,17 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 
-export async function updateMatchScoreAction(matchId: string, homeScore: number, awayScore: number, status: string, teamHome: string, teamAway: string) {
+export async function updateMatchScoreAction(
+  matchId: string, 
+  homeScore: number, 
+  awayScore: number, 
+  status: string, 
+  teamHome: string, 
+  teamAway: string,
+  homeExtraScore: number | null = null,
+  awayExtraScore: number | null = null,
+  penaltyWinner: string | null = null
+) {
   const session = await getServerSession(authOptions);
   
   const isAdmin = session?.user?.name?.toUpperCase() === "ADMIN" || (session?.user as any)?.role === "ADMIN";
@@ -18,7 +28,14 @@ export async function updateMatchScoreAction(matchId: string, homeScore: number,
     // 1. Update Match (Try ID first, then Team Names fallback)
     const match = await prisma.match.update({
       where: { id: matchId },
-      data: { homeScore, awayScore, status }
+      data: { 
+        homeScore, 
+        awayScore, 
+        status,
+        homeExtraScore,
+        awayExtraScore,
+        penaltyWinner
+      }
     }).catch(() => null);
 
     let updateResult = match ? 1 : 0;
@@ -30,7 +47,14 @@ export async function updateMatchScoreAction(matchId: string, homeScore: number,
       if (fallbackMatch) {
         await prisma.match.update({
           where: { id: fallbackMatch.id },
-          data: { homeScore, awayScore, status }
+          data: { 
+            homeScore, 
+            awayScore, 
+            status,
+            homeExtraScore,
+            awayExtraScore,
+            penaltyWinner
+          }
         });
         updateResult = 1;
       }
@@ -148,7 +172,14 @@ export async function resetMatchAction(matchId: string, teamHome: string, teamAw
 
     await prisma.match.update({
       where: { id: dbMatch.id },
-      data: { homeScore: null, awayScore: null, status: "SCHEDULED" }
+      data: { 
+        homeScore: null, 
+        awayScore: null, 
+        homeExtraScore: null,
+        awayExtraScore: null,
+        penaltyWinner: null,
+        status: "SCHEDULED" 
+      }
     });
 
     revalidatePath("/");
