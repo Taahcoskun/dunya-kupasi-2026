@@ -5,12 +5,16 @@ import { useSession } from "next-auth/react";
 import { Trophy, Users, Lock, Timer, Loader2, AlertCircle, RefreshCw } from "lucide-react";
 import { getFlagUrl } from "@/lib/teams";
 import Link from "next/link";
+import { getPointsBreakdown } from "@/lib/points";
 
 type Prediction = {
   id: string;
   username: string;
   predictedHomeScore: number;
   predictedAwayScore: number;
+  predictedHomeExtraScore: number | null;
+  predictedAwayExtraScore: number | null;
+  penaltyWinner: string | null;
   pointsAwarded: number | null;
 };
 
@@ -21,6 +25,9 @@ type LiveMatch = {
   kickoffTime: string;
   homeScore: number | null;
   awayScore: number | null;
+  homeExtraScore: number | null;
+  awayExtraScore: number | null;
+  penaltyWinner: string | null;
   status: string;
   predictions: Prediction[];
 };
@@ -282,30 +289,67 @@ export default function LivePredictionsPage() {
                                       </div>
                                     </td>
                                     <td className="px-3 py-3 md:px-6 md:py-4 text-center font-black text-blue-400 text-xs md:text-base whitespace-nowrap">
-                                      {pred.predictedHomeScore} - {pred.predictedAwayScore}
+                                      <div>{pred.predictedHomeScore} - {pred.predictedAwayScore}</div>
+                                      {pred.predictedHomeExtraScore !== null && pred.predictedAwayExtraScore !== null && (
+                                        <div className="text-[9px] md:text-[10px] text-gray-500 font-bold mt-0.5">
+                                          Uzatma: {pred.predictedHomeExtraScore} - {pred.predictedAwayExtraScore}
+                                        </div>
+                                      )}
+                                      {pred.penaltyWinner && (
+                                        <div className="text-[9px] md:text-[10px] text-orange-400 font-bold mt-0.5">
+                                          Penaltı: {pred.penaltyWinner}
+                                        </div>
+                                      )}
                                     </td>
                                     <td className="px-3 py-3 md:px-6 md:py-4 text-center">
-                                      {pred.pointsAwarded !== null ? (
-                                        pred.pointsAwarded === 4 ? (
-                                          <span className="px-2 md:px-3 py-1 rounded-full text-[9px] md:text-[10px] font-black bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 shadow-[0_0_10px_rgba(234,179,8,0.15)] uppercase tracking-wider whitespace-nowrap">
-                                            <span className="hidden sm:inline">+4 Puan (Tam Skor)</span>
-                                            <span className="inline sm:hidden">+4 Puan (Tam)</span>
-                                          </span>
-                                        ) : pred.pointsAwarded > 0 ? (
-                                          <span className="px-2 md:px-3 py-1 rounded-full text-[9px] md:text-[10px] font-black bg-blue-500/10 text-blue-400 border border-blue-500/20 uppercase tracking-wider whitespace-nowrap">
-                                            <span className="hidden sm:inline">+{pred.pointsAwarded} Puan (Sonuç)</span>
-                                            <span className="inline sm:hidden">+{pred.pointsAwarded} Puan</span>
-                                          </span>
-                                        ) : (
-                                          <span className="px-2 md:px-3 py-1 rounded-full text-[9px] md:text-[10px] font-black bg-white/5 text-gray-500 border border-white/5 uppercase tracking-wider whitespace-nowrap">
-                                            0 Puan
-                                          </span>
-                                        )
-                                      ) : (
-                                        <span className="px-2 md:px-3 py-1 rounded-full text-[9px] md:text-[10px] font-black bg-white/5 text-gray-400 border border-white/5 uppercase tracking-wider whitespace-nowrap animate-pulse">
-                                          Bekleniyor
-                                        </span>
-                                      )}
+                                      {(() => {
+                                        if (pred.pointsAwarded === null) {
+                                          return (
+                                            <span className="px-2 md:px-3 py-1 rounded-full text-[9px] md:text-[10px] font-black bg-white/5 text-gray-400 border border-white/5 uppercase tracking-wider whitespace-nowrap animate-pulse">
+                                              Bekleniyor
+                                            </span>
+                                          );
+                                        }
+
+                                        const isKnockout = new Date(match.kickoffTime) >= new Date("2026-06-28T10:00:00Z");
+                                        const bd = isKnockout ? getPointsBreakdown(match, pred) : null;
+
+                                        return (
+                                          <div className="flex flex-col items-center gap-0.5">
+                                            {pred.pointsAwarded === 4 && !isKnockout ? (
+                                              <span className="px-2 md:px-3 py-1 rounded-full text-[9px] md:text-[10px] font-black bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 shadow-[0_0_10px_rgba(234,179,8,0.15)] uppercase tracking-wider whitespace-nowrap">
+                                                <span className="hidden sm:inline">+4 Puan (Tam Skor)</span>
+                                                <span className="inline sm:hidden">+4 Puan (Tam)</span>
+                                              </span>
+                                            ) : pred.pointsAwarded > 0 ? (
+                                              <span className="px-2 md:px-3 py-1 rounded-full text-[9px] md:text-[10px] font-black bg-blue-500/10 text-blue-400 border border-blue-500/20 uppercase tracking-wider whitespace-nowrap">
+                                                <span className="hidden sm:inline">+{pred.pointsAwarded} Puan{isKnockout ? "" : " (Sonuç)"}</span>
+                                                <span className="inline sm:hidden">+{pred.pointsAwarded} Puan</span>
+                                              </span>
+                                            ) : (
+                                              <span className="px-2 md:px-3 py-1 rounded-full text-[9px] md:text-[10px] font-black bg-white/5 text-gray-500 border border-white/5 uppercase tracking-wider whitespace-nowrap">
+                                                0 Puan
+                                              </span>
+                                            )}
+
+                                            {isKnockout && bd && (
+                                              <div className="text-[9px] text-gray-500 font-bold whitespace-nowrap mt-1">
+                                                90dk: {bd.score90Mins >= 0 ? `+${bd.score90Mins}` : bd.score90Mins}p
+                                                {pred.predictedHomeScore === pred.predictedAwayScore && (
+                                                  <>
+                                                    {" | Uz: "}{bd.extraTimeGo + bd.extraTimeOutcome >= 0 ? `+${bd.extraTimeGo + bd.extraTimeOutcome}` : bd.extraTimeGo + bd.extraTimeOutcome}p
+                                                    {pred.predictedHomeExtraScore === pred.predictedAwayExtraScore && (
+                                                      <>
+                                                        {" | Pen: "}{bd.penaltyGo + bd.penaltyWinner >= 0 ? `+${bd.penaltyGo + bd.penaltyWinner}` : bd.penaltyGo + bd.penaltyWinner}p
+                                                      </>
+                                                    )}
+                                                  </>
+                                                )}
+                                              </div>
+                                            )}
+                                          </div>
+                                        );
+                                      })()}
                                     </td>
                                   </tr>
                                 );

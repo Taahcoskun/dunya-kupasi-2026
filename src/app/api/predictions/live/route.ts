@@ -57,6 +57,9 @@ export async function GET(req: Request) {
         username: p.user.username,
         predictedHomeScore: p.predictedHomeScore,
         predictedAwayScore: p.predictedAwayScore,
+        predictedHomeExtraScore: p.predictedHomeExtraScore,
+        predictedAwayExtraScore: p.predictedAwayExtraScore,
+        penaltyWinner: p.penaltyWinner,
         pointsAwarded: p.pointsAwarded
       });
     });
@@ -69,6 +72,9 @@ export async function GET(req: Request) {
       kickoffTime: match.kickoffTime,
       homeScore: match.homeScore,
       awayScore: match.awayScore,
+      homeExtraScore: match.homeExtraScore,
+      awayExtraScore: match.awayExtraScore,
+      penaltyWinner: match.penaltyWinner,
       status: match.status,
       predictions: predictionsByMatch[match.id] || []
     }));
