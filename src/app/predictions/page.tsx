@@ -316,25 +316,56 @@ export default function LivePredictionsPage() {
 
                                         return (
                                           <div className="flex flex-col items-center gap-0.5">
-                                            {pred.pointsAwarded === 4 && !isKnockout ? (
-                                              <span className="px-2 md:px-3 py-1 rounded-full text-[9px] md:text-[10px] font-black bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 shadow-[0_0_10px_rgba(234,179,8,0.15)] uppercase tracking-wider whitespace-nowrap">
-                                                <span className="hidden sm:inline">+4 Puan (Tam Skor)</span>
-                                                <span className="inline sm:hidden">+4 Puan (Tam)</span>
-                                              </span>
-                                            ) : pred.pointsAwarded > 0 ? (
-                                              <span className="px-2 md:px-3 py-1 rounded-full text-[9px] md:text-[10px] font-black bg-blue-500/10 text-blue-400 border border-blue-500/20 uppercase tracking-wider whitespace-nowrap">
-                                                <span className="hidden sm:inline">+{pred.pointsAwarded} Puan{isKnockout ? "" : " (Sonuç)"}</span>
-                                                <span className="inline sm:hidden">+{pred.pointsAwarded} Puan</span>
-                                              </span>
-                                            ) : pred.pointsAwarded < 0 ? (
-                                              <span className="px-2 md:px-3 py-1 rounded-full text-[9px] md:text-[10px] font-black bg-red-500/10 text-red-400 border border-red-500/20 uppercase tracking-wider whitespace-nowrap">
-                                                {pred.pointsAwarded} Puan
-                                              </span>
-                                            ) : (
-                                              <span className="px-2 md:px-3 py-1 rounded-full text-[9px] md:text-[10px] font-black bg-white/5 text-gray-500 border border-white/5 uppercase tracking-wider whitespace-nowrap">
-                                                0 Puan
-                                              </span>
-                                            )}
+                                            {(() => {
+                                              let badgeClass = "bg-white/5 text-gray-500 border border-white/5";
+                                              let badgeText = "0 Puan";
+                                              let badgeMobileText = "0 Puan";
+
+                                              if (pred.pointsAwarded! < 0) {
+                                                badgeClass = "bg-red-500/10 text-red-400 border border-red-500/20";
+                                                badgeText = `${pred.pointsAwarded} Puan`;
+                                                badgeMobileText = `${pred.pointsAwarded} Puan`;
+                                              } else if (pred.pointsAwarded! === 0) {
+                                                badgeClass = "bg-white/5 text-gray-500 border border-white/5";
+                                                badgeText = `0 Puan`;
+                                                badgeMobileText = `0 Puan`;
+                                              } else if (isKnockout && bd) {
+                                                if (bd.penaltyWinner > 0) {
+                                                  badgeClass = "bg-pink-500/10 text-pink-400 border border-pink-500/20 shadow-[0_0_10px_rgba(236,72,153,0.15)]";
+                                                  badgeText = `+${pred.pointsAwarded} Puan (Penaltı Tam)`;
+                                                  badgeMobileText = `+${pred.pointsAwarded} P (Pen)`;
+                                                } else if (bd.extraTimeOutcome > 0) {
+                                                  badgeClass = "bg-green-500/10 text-green-400 border border-green-500/20 shadow-[0_0_10px_rgba(34,197,94,0.15)]";
+                                                  badgeText = `+${pred.pointsAwarded} Puan (Uzatma)`;
+                                                  badgeMobileText = `+${pred.pointsAwarded} P (Uz)`;
+                                                } else if (bd.score90Mins === 4) {
+                                                  badgeClass = "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 shadow-[0_0_10px_rgba(234,179,8,0.15)]";
+                                                  badgeText = `+${pred.pointsAwarded} Puan (90DK Tam)`;
+                                                  badgeMobileText = `+${pred.pointsAwarded} P (90DK)`;
+                                                } else {
+                                                  badgeClass = "bg-blue-500/10 text-blue-400 border border-blue-500/20";
+                                                  badgeText = `+${pred.pointsAwarded} Puan (Sonuç)`;
+                                                  badgeMobileText = `+${pred.pointsAwarded} Puan`;
+                                                }
+                                              } else {
+                                                if (pred.pointsAwarded! === 4) {
+                                                  badgeClass = "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 shadow-[0_0_10px_rgba(234,179,8,0.15)]";
+                                                  badgeText = `+4 Puan (Tam Skor)`;
+                                                  badgeMobileText = `+4 Puan (Tam)`;
+                                                } else {
+                                                  badgeClass = "bg-blue-500/10 text-blue-400 border border-blue-500/20";
+                                                  badgeText = `+${pred.pointsAwarded} Puan (Sonuç)`;
+                                                  badgeMobileText = `+${pred.pointsAwarded} Puan`;
+                                                }
+                                              }
+
+                                              return (
+                                                <span className={`px-2 md:px-3 py-1 rounded-full text-[9px] md:text-[10px] font-black uppercase tracking-wider whitespace-nowrap ${badgeClass}`}>
+                                                  <span className="hidden sm:inline">{badgeText}</span>
+                                                  <span className="inline sm:hidden">{badgeMobileText}</span>
+                                                </span>
+                                              );
+                                            })()}
 
                                             {isKnockout && bd && (
                                               <div className="flex flex-col sm:flex-row items-center gap-0.5 sm:gap-1 text-[8px] md:text-[9px] text-gray-500 font-bold mt-1">
