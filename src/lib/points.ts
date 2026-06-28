@@ -100,6 +100,16 @@ export function getPointsBreakdown(
         } else {
           // Predicted extra time but it did not go to extra time (-1 point)
           extraTimeGo = -1;
+          
+          // If they also predicted penalties, they should lose -1 for that too since it didn't even reach extra time
+          const predHomeExtra = pred.predictedHomeExtraScore;
+          const predAwayExtra = pred.predictedAwayExtraScore;
+          if (predHomeExtra !== null && predAwayExtra !== null) {
+            const predExtraOutcome = predHomeExtra > predAwayExtra ? "HOME" : predHomeExtra < predAwayExtra ? "AWAY" : "DRAW";
+            if (predExtraOutcome === "DRAW") {
+              penaltyGo = -1;
+            }
+          }
         }
       }
     }

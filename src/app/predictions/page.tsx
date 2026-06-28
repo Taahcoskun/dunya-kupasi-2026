@@ -326,6 +326,10 @@ export default function LivePredictionsPage() {
                                                 <span className="hidden sm:inline">+{pred.pointsAwarded} Puan{isKnockout ? "" : " (Sonuç)"}</span>
                                                 <span className="inline sm:hidden">+{pred.pointsAwarded} Puan</span>
                                               </span>
+                                            ) : pred.pointsAwarded < 0 ? (
+                                              <span className="px-2 md:px-3 py-1 rounded-full text-[9px] md:text-[10px] font-black bg-red-500/10 text-red-400 border border-red-500/20 uppercase tracking-wider whitespace-nowrap">
+                                                {pred.pointsAwarded} Puan
+                                              </span>
                                             ) : (
                                               <span className="px-2 md:px-3 py-1 rounded-full text-[9px] md:text-[10px] font-black bg-white/5 text-gray-500 border border-white/5 uppercase tracking-wider whitespace-nowrap">
                                                 0 Puan
