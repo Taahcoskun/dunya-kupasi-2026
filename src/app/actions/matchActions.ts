@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
+import { calculatePoints } from "@/lib/points";
 
 export async function updateMatchScoreAction(
   matchId: string, 
@@ -88,22 +89,8 @@ export async function updateMatchScoreAction(
       });
 
       for (const pred of predictions) {
-        let points = 0;
-        const predHome = pred.predictedHomeScore;
-        const predAway = pred.predictedAwayScore;
-        
-        // Correct Result (Win/Loss/Draw) -> 1 Point
-        const isResultCorrect = (homeScore > awayScore && predHome > predAway) || 
-                               (homeScore < awayScore && predHome < predAway) || 
-                               (homeScore === awayScore && predHome === predAway);
-        
-        if (isResultCorrect) {
-          points = 1;
-          // Exact Score -> +3 More Points (Total 4)
-          if (homeScore === predHome && awayScore === predAway) {
-            points = 4;
-          }
-        }
+        if (!dbMatch) continue;
+        const points = calculatePoints(dbMatch, pred);
 
         const oldPoints = pred.pointsAwarded || 0;
         const diff = points - oldPoints;

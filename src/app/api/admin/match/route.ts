@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { calculatePoints } from "@/lib/points";
 
 export async function POST(req: Request) {
   try {
@@ -20,37 +21,26 @@ export async function POST(req: Request) {
 
     // If match is finished, calculate points for all predictions
     if (status === "FINISHED" && updatedMatch.homeScore !== null && updatedMatch.awayScore !== null) {
-      const matchHome = updatedMatch.homeScore;
-      const matchAway = updatedMatch.awayScore;
-      const matchResult = matchHome > matchAway ? "HOME" : matchHome < matchAway ? "AWAY" : "DRAW";
-
       const predictions = await prisma.prediction.findMany({
-        where: { matchId: id, pointsAwarded: null },
+        where: { matchId: id },
       });
 
       for (const p of predictions) {
-        let points = 0;
-        const predHome = p.predictedHomeScore;
-        const predAway = p.predictedAwayScore;
-        const predResult = predHome > predAway ? "HOME" : predHome < predAway ? "AWAY" : "DRAW";
+        const points = calculatePoints(updatedMatch, p);
+        const oldPoints = p.pointsAwarded || 0;
+        const diff = points - oldPoints;
 
-        if (predHome === matchHome && predAway === matchAway) {
-          points = 4;
-        } else if (predResult === matchResult) {
-          points = 1;
-        }
+        await prisma.prediction.update({
+          where: { id: p.id },
+          data: { pointsAwarded: points },
+        });
 
-        // Update prediction and user's total points
-        await prisma.$transaction([
-          prisma.prediction.update({
-            where: { id: p.id },
-            data: { pointsAwarded: points },
-          }),
-          prisma.user.update({
+        if (diff !== 0) {
+          await prisma.user.update({
             where: { id: p.userId },
-            data: { totalPoints: { increment: points } },
-          }),
-        ]);
+            data: { totalPoints: { increment: diff } },
+          });
+        }
       }
     }
 

@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
+import { calculatePoints } from "@/lib/points";
 import fs from "fs";
 import path from "path";
 
@@ -77,15 +78,8 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       });
 
       for (const pred of predictions) {
-        let points = 0;
-        const predHome = pred.predictedHomeScore;
-        const predAway = pred.predictedAwayScore;
-        const isResultCorrect = (hScore > aScore && predHome > predAway) || (hScore < aScore && predHome < predAway) || (hScore === aScore && predHome === predAway);
-        
-        if (isResultCorrect) {
-          points = 1;
-          if (hScore === predHome && aScore === predAway) points = 4;
-        }
+        if (!dbMatch) continue;
+        const points = calculatePoints(dbMatch, pred);
         
         const oldPoints = pred.pointsAwarded || 0;
         const diff = points - oldPoints;
