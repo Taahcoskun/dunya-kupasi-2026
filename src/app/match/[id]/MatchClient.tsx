@@ -685,14 +685,16 @@ export default function MatchClient({
                                   {p.pointsAwarded > 0 ? `+${p.pointsAwarded}` : p.pointsAwarded}
                                 </span>
                                 {isKnockout && (
-                                  <div className="text-[9px] text-gray-500 font-bold whitespace-nowrap mt-1">
-                                    90dk: {bd.score90Mins >= 0 ? `+${bd.score90Mins}` : bd.score90Mins}p
+                                  <div className="flex flex-col sm:flex-row items-center gap-0.5 sm:gap-1 text-[8px] md:text-[9px] text-gray-500 font-bold mt-1">
+                                    <span className="whitespace-nowrap">90dk: {bd.score90Mins >= 0 ? `+${bd.score90Mins}` : bd.score90Mins}p</span>
                                     {p.predictedHomeScore === p.predictedAwayScore && (
                                       <>
-                                        {" | Uz: "}{bd.extraTimeGo + bd.extraTimeOutcome >= 0 ? `+${bd.extraTimeGo + bd.extraTimeOutcome}` : bd.extraTimeGo + bd.extraTimeOutcome}p
+                                        <span className="hidden sm:inline">|</span>
+                                        <span className="whitespace-nowrap">Uz: {bd.extraTimeGo + bd.extraTimeOutcome >= 0 ? `+${bd.extraTimeGo + bd.extraTimeOutcome}` : bd.extraTimeGo + bd.extraTimeOutcome}p</span>
                                         {p.predictedHomeExtraScore === p.predictedAwayExtraScore && (
                                           <>
-                                            {" | Pen: "}{bd.penaltyGo + bd.penaltyWinner >= 0 ? `+${bd.penaltyGo + bd.penaltyWinner}` : bd.penaltyGo + bd.penaltyWinner}p
+                                            <span className="hidden sm:inline">|</span>
+                                            <span className="whitespace-nowrap">Pen: {bd.penaltyGo + bd.penaltyWinner >= 0 ? `+${bd.penaltyGo + bd.penaltyWinner}` : bd.penaltyGo + bd.penaltyWinner}p</span>
                                           </>
                                         )}
                                       </>
