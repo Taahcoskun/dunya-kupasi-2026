@@ -80,12 +80,12 @@ export default function LeaderboardPage() {
                       Grup
                     </th>
                     <th className="px-1.5 py-3 md:p-6 text-gray-400 font-bold uppercase text-[9px] md:text-xs tracking-wider md:tracking-widest text-center whitespace-nowrap">
-                      <span className="hidden sm:inline">Son 32</span>
-                      <span className="sm:hidden">S32</span>
-                    </th>
-                    <th className="px-1.5 py-3 md:p-6 text-gray-400 font-bold uppercase text-[9px] md:text-xs tracking-wider md:tracking-widest text-center whitespace-nowrap">
                       <span className="hidden sm:inline">Son 16</span>
                       <span className="sm:hidden">S16</span>
+                    </th>
+                    <th className="px-1.5 py-3 md:p-6 text-gray-400 font-bold uppercase text-[9px] md:text-xs tracking-wider md:tracking-widest text-center whitespace-nowrap">
+                      <span className="hidden sm:inline">Son 32</span>
+                      <span className="sm:hidden">S32</span>
                     </th>
                     <th className="px-1.5 py-3 md:p-6 text-gray-400 font-bold uppercase text-[9px] md:text-xs tracking-wider md:tracking-widest text-right w-16 md:w-32 whitespace-nowrap">
                       <span className="hidden sm:inline">Toplam</span>
@@ -157,12 +157,12 @@ export default function LeaderboardPage() {
                       </td>
                       <td className="px-1.5 py-3 md:p-6 text-center">
                         <span className="font-semibold text-gray-300 tabular-nums text-xs md:text-base">
-                          {user.round32Points}
+                          {user.round16Points}
                         </span>
                       </td>
                       <td className="px-1.5 py-3 md:p-6 text-center">
                         <span className="font-semibold text-gray-300 tabular-nums text-xs md:text-base">
-                          {user.round16Points}
+                          {user.round32Points}
                         </span>
                       </td>
                       <td className="px-1.5 py-3 md:p-6 text-right">

@@ -111,8 +111,8 @@ export default function Home() {
           <div className="flex gap-2 md:gap-4 p-1.5 bg-black/40 rounded-2xl border border-white/5 overflow-x-auto w-full md:w-auto scrollbar-hide backdrop-blur-md">
             {[
               { id: "TODAY", label: "BUGÜN" },
-              { id: "ROUND32", label: "SON 32" },
               { id: "ROUND16", label: "SON 16" },
+              { id: "ROUND32", label: "SON 32" },
               { id: "WEEK1", label: "1. HAFTA" },
               { id: "WEEK2", label: "2. HAFTA" },
               { id: "WEEK3", label: "3. HAFTA" },
