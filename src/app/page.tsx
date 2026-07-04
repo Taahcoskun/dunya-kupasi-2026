@@ -42,7 +42,7 @@ export default function Home() {
   const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const todayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
 
-  const [activeTab, setActiveTab] = useState<"TODAY" | "WEEK1" | "WEEK2" | "WEEK3" | "ROUND32" | "ALL">("ROUND32");
+  const [activeTab, setActiveTab] = useState<"TODAY" | "WEEK1" | "WEEK2" | "WEEK3" | "ROUND32" | "ROUND16" | "ALL">("ROUND16");
   const filteredByTab = matches.filter(m => {
     if (activeTab === "TODAY") {
       const d = new Date(m.kickoffTime);
@@ -65,8 +65,13 @@ export default function Home() {
     }
     if (activeTab === "ROUND32") {
       const d = new Date(m.kickoffTime);
-      // Round of 32 matches (June 28 afternoon - July 6)
-      return d >= new Date("2026-06-28T10:00:00Z") && d <= new Date("2026-07-06");
+      // Round of 32 matches (June 28 afternoon - July 4 morning)
+      return d >= new Date("2026-06-28T10:00:00Z") && d <= new Date("2026-07-04T10:00:00Z");
+    }
+    if (activeTab === "ROUND16") {
+      const d = new Date(m.kickoffTime);
+      // Round of 16 matches (July 4 afternoon - July 8)
+      return d >= new Date("2026-07-04T10:00:00Z") && d <= new Date("2026-07-08");
     }
     return true;
   });
@@ -107,6 +112,7 @@ export default function Home() {
             {[
               { id: "TODAY", label: "BUGÜN" },
               { id: "ROUND32", label: "SON 32" },
+              { id: "ROUND16", label: "SON 16" },
               { id: "WEEK1", label: "1. HAFTA" },
               { id: "WEEK2", label: "2. HAFTA" },
               { id: "WEEK3", label: "3. HAFTA" },

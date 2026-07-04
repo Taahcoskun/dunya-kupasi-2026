@@ -48,6 +48,7 @@ export async function GET(req: Request) {
     let users = usersData.map(user => {
       let groupPoints = 0;
       let round32Points = 0;
+      let round16Points = 0;
       let exactHits = 0;
       let onePoints = 0;
       let totalPlayed = 0;
@@ -66,8 +67,10 @@ export async function GET(req: Request) {
           const kickoff = new Date(p.match.kickoffTime).getTime();
           if (kickoff < week3End) {
             groupPoints += p.pointsAwarded;
-          } else {
+          } else if (kickoff < new Date("2026-07-04T10:00:00Z").getTime()) {
             round32Points += p.pointsAwarded;
+          } else {
+            round16Points += p.pointsAwarded;
           }
         }
       });
@@ -78,6 +81,7 @@ export async function GET(req: Request) {
         totalPoints: user.totalPoints,
         groupPoints,
         round32Points,
+        round16Points,
         exactHits,
         onePoints,
         totalPlayed
