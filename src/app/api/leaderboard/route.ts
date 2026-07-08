@@ -49,6 +49,7 @@ export async function GET(req: Request) {
       let groupPoints = 0;
       let round32Points = 0;
       let round16Points = 0;
+      let quarterFinalsPoints = 0;
       let exactHits = 0;
       let onePoints = 0;
       let totalPlayed = 0;
@@ -69,8 +70,10 @@ export async function GET(req: Request) {
             groupPoints += p.pointsAwarded;
           } else if (kickoff < new Date("2026-07-04T10:00:00Z").getTime()) {
             round32Points += p.pointsAwarded;
-          } else {
+          } else if (kickoff < new Date("2026-07-09T00:00:00Z").getTime()) {
             round16Points += p.pointsAwarded;
+          } else {
+            quarterFinalsPoints += p.pointsAwarded;
           }
         }
       });
@@ -82,6 +85,7 @@ export async function GET(req: Request) {
         groupPoints,
         round32Points,
         round16Points,
+        quarterFinalsPoints,
         exactHits,
         onePoints,
         totalPlayed

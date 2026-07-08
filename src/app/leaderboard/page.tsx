@@ -10,6 +10,7 @@ type UserType = {
   groupPoints: number;
   round32Points: number;
   round16Points: number;
+  quarterFinalsPoints: number;
   exactHits: number;
   onePoints: number;
   totalPlayed: number;
@@ -86,6 +87,10 @@ export default function LeaderboardPage() {
                     <th className="px-1.5 py-3 md:p-6 text-gray-400 font-bold uppercase text-[9px] md:text-xs tracking-wider md:tracking-widest text-center whitespace-nowrap">
                       <span className="hidden sm:inline">Son 32</span>
                       <span className="sm:hidden">S32</span>
+                    </th>
+                    <th className="px-1.5 py-3 md:p-6 text-gray-400 font-bold uppercase text-[9px] md:text-xs tracking-wider md:tracking-widest text-center whitespace-nowrap">
+                      <span className="hidden sm:inline">Çeyrek F.</span>
+                      <span className="sm:hidden">ÇF</span>
                     </th>
                     <th className="px-1.5 py-3 md:p-6 text-gray-400 font-bold uppercase text-[9px] md:text-xs tracking-wider md:tracking-widest text-right w-16 md:w-32 whitespace-nowrap">
                       <span className="hidden sm:inline">Toplam</span>
@@ -165,6 +170,11 @@ export default function LeaderboardPage() {
                           {user.round32Points}
                         </span>
                       </td>
+                      <td className="px-1.5 py-3 md:p-6 text-center">
+                        <span className="font-semibold text-gray-300 tabular-nums text-xs md:text-base">
+                          {user.quarterFinalsPoints}
+                        </span>
+                      </td>
                       <td className="px-1.5 py-3 md:p-6 text-right">
                         <span className="font-black text-sm md:text-xl text-blue-400 tabular-nums">
                           {user.totalPoints}
@@ -174,7 +184,7 @@ export default function LeaderboardPage() {
                   ))}
                   {users.length === 0 && (
                     <tr>
-                      <td colSpan={11} className="p-12 md:p-24 text-center text-gray-500">
+                      <td colSpan={12} className="p-12 md:p-24 text-center text-gray-500">
                         <User className="w-8 h-8 md:w-12 md:h-12 mx-auto mb-4 opacity-20" />
                         <p className="text-sm md:text-lg font-medium">Henüz tahminci bulunmuyor.</p>
                       </td>
