@@ -42,7 +42,7 @@ export default function Home() {
   const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const todayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
 
-  const [activeTab, setActiveTab] = useState<"TODAY" | "WEEK1" | "WEEK2" | "WEEK3" | "ROUND32" | "ROUND16" | "QUARTERFINALS" | "ALL">("QUARTERFINALS");
+  const [activeTab, setActiveTab] = useState<"TODAY" | "WEEK1" | "WEEK2" | "WEEK3" | "ROUND32" | "ROUND16" | "QUARTERFINALS" | "SEMIFINALS" | "ALL">("SEMIFINALS");
   const filteredByTab = matches.filter(m => {
     if (activeTab === "TODAY") {
       const d = new Date(m.kickoffTime);
@@ -77,6 +77,11 @@ export default function Home() {
       const d = new Date(m.kickoffTime);
       // Quarter Finals matches (July 9 - July 12)
       return d >= new Date("2026-07-09T00:00:00Z") && d <= new Date("2026-07-12T23:59:59Z");
+    }
+    if (activeTab === "SEMIFINALS") {
+      const d = new Date(m.kickoffTime);
+      // Semi Finals matches (July 14 - July 15)
+      return d >= new Date("2026-07-13T00:00:00Z") && d <= new Date("2026-07-15T23:59:59Z");
     }
     return true;
   });
@@ -116,6 +121,7 @@ export default function Home() {
           <div className="flex gap-2 md:gap-4 p-1.5 bg-black/40 rounded-2xl border border-white/5 overflow-x-auto w-full md:w-auto scrollbar-hide backdrop-blur-md">
             {[
               { id: "TODAY", label: "BUGÜN" },
+              { id: "SEMIFINALS", label: "YARI FİNAL" },
               { id: "QUARTERFINALS", label: "ÇEYREK FİNAL" },
               { id: "ROUND16", label: "SON 16" },
               { id: "ROUND32", label: "SON 32" },
