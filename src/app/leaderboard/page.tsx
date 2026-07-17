@@ -12,6 +12,7 @@ type UserType = {
   round16Points: number;
   quarterFinalsPoints: number;
   semiFinalsPoints: number;
+  finalPoints: number;
   exactHits: number;
   onePoints: number;
   totalPlayed: number;
@@ -96,6 +97,10 @@ export default function LeaderboardPage() {
                     <th className="px-1.5 py-3 md:p-6 text-gray-400 font-bold uppercase text-[9px] md:text-xs tracking-wider md:tracking-widest text-center whitespace-nowrap">
                       <span className="hidden sm:inline">Yarı F.</span>
                       <span className="sm:hidden">YF</span>
+                    </th>
+                    <th className="px-1.5 py-3 md:p-6 text-gray-400 font-bold uppercase text-[9px] md:text-xs tracking-wider md:tracking-widest text-center whitespace-nowrap">
+                      <span className="hidden sm:inline">Final</span>
+                      <span className="sm:hidden">F</span>
                     </th>
                     <th className="px-1.5 py-3 md:p-6 text-gray-400 font-bold uppercase text-[9px] md:text-xs tracking-wider md:tracking-widest text-right w-16 md:w-32 whitespace-nowrap">
                       <span className="hidden sm:inline">Toplam</span>
@@ -183,6 +188,11 @@ export default function LeaderboardPage() {
                       <td className="px-1.5 py-3 md:p-6 text-center">
                         <span className="font-semibold text-gray-300 tabular-nums text-xs md:text-base">
                           {user.semiFinalsPoints}
+                        </span>
+                      </td>
+                      <td className="px-1.5 py-3 md:p-6 text-center">
+                        <span className="font-semibold text-gray-300 tabular-nums text-xs md:text-base">
+                          {user.finalPoints}
                         </span>
                       </td>
                       <td className="px-1.5 py-3 md:p-6 text-right">
