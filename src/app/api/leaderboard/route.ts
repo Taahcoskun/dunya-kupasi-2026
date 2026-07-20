@@ -99,7 +99,7 @@ export async function GET(req: Request) {
         const winnerTeam = user.extraPrediction.winnerTeam?.toLowerCase() || '';
         const bestPlayer = user.extraPrediction.bestPlayer?.toLowerCase() || '';
 
-        if (topScorer.includes('mbappe') || topScorer.includes('mpappe')) extraPoints += 5;
+        if (topScorer.includes('mbappe') || topScorer.includes('mpappe') || topScorer.includes('mbabbe')) extraPoints += 5;
         if (topAssister.includes('olise')) extraPoints += 5;
         if (winnerTeam.includes('ispanya') || winnerTeam.includes('spain') || winnerTeam.includes('i̇spanya')) extraPoints += 5;
         if (bestPlayer.includes('rodri')) extraPoints += 5;
