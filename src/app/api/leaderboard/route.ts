@@ -20,6 +20,14 @@ export async function GET(req: Request) {
         id: true,
         username: true,
         totalPoints: true,
+        extraPrediction: {
+          select: {
+            topScorer: true,
+            topAssister: true,
+            winnerTeam: true,
+            bestPlayer: true,
+          }
+        },
         predictions: {
           select: {
             pointsAwarded: true,
@@ -84,16 +92,30 @@ export async function GET(req: Request) {
         }
       });
 
+      let extraPoints = 0;
+      if (user.extraPrediction) {
+        const topScorer = user.extraPrediction.topScorer?.toLowerCase() || '';
+        const topAssister = user.extraPrediction.topAssister?.toLowerCase() || '';
+        const winnerTeam = user.extraPrediction.winnerTeam?.toLowerCase() || '';
+        const bestPlayer = user.extraPrediction.bestPlayer?.toLowerCase() || '';
+
+        if (topScorer.includes('mbappe') || topScorer.includes('mpappe')) extraPoints += 5;
+        if (topAssister.includes('olise')) extraPoints += 5;
+        if (winnerTeam.includes('ispanya') || winnerTeam.includes('spain') || winnerTeam.includes('i̇spanya')) extraPoints += 5;
+        if (bestPlayer.includes('rodri')) extraPoints += 5;
+      }
+
       return {
         id: user.id,
         username: user.username,
-        totalPoints: user.totalPoints,
+        totalPoints: user.totalPoints + extraPoints,
         groupPoints,
         round32Points,
         round16Points,
         quarterFinalsPoints,
         semiFinalsPoints,
         finalPoints,
+        extraPoints,
         exactHits,
         onePoints,
         totalPlayed
